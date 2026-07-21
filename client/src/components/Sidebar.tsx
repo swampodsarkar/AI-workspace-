@@ -34,8 +34,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             <Sparkles size={16} className="text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">AI Workspace</h1>
-            <p className="text-[10px] text-dark-500 font-medium tracking-wide uppercase">All-in-One Platform</p>
+            <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Bit-Byte</h1>
+            <p className="text-[10px] text-dark-500 font-medium tracking-wide uppercase">AI-Powered Workspace</p>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
                   <Sparkles size={16} className="text-white" />
                 </div>
-                <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">AI Workspace</h1>
+                <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Bit-Byte</h1>
               </div>
               <button onClick={onClose} className="text-dark-400 hover:text-white p-1.5 rounded-lg hover:bg-dark-700 transition-colors">
                 <X size={18} />

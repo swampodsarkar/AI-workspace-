@@ -83,8 +83,8 @@ export default function Login() {
                 </div>
               </div>
               <div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-primary-200 via-purple-200 to-cyan-200 bg-clip-text text-transparent">AI Workspace</span>
-                <p className="text-[10px] text-dark-500 uppercase tracking-[0.2em] font-semibold">All-in-One AI Platform</p>
+                <span className="text-2xl font-bold bg-gradient-to-r from-primary-200 via-purple-200 to-cyan-200 bg-clip-text text-transparent">Bit-Byte</span>
+                <p className="text-[10px] text-dark-500 uppercase tracking-[0.2em] font-semibold">AI-Powered Workspace</p>
               </div>
             </div>
 
@@ -138,7 +138,7 @@ export default function Login() {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-2xl">
                   <Sparkles size={20} className="text-white" />
                 </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-primary-300 to-purple-300 bg-clip-text text-transparent">AI Workspace</span>
+                <span className="text-xl font-bold bg-gradient-to-r from-primary-300 to-purple-300 bg-clip-text text-transparent">Bit-Byte</span>
               </div>
               <p className="text-dark-400 text-sm">50 free AI requests daily. No card needed.</p>
             </div>

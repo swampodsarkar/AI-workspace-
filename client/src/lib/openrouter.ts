@@ -7,7 +7,7 @@ const headers = () => ({
   'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
   'Content-Type': 'application/json',
   'HTTP-Referer': window.location.origin,
-  'X-Title': 'AI Workspace'
+  'X-Title': 'Bit-Byte'
 })
 
 const CREATOR_SYSTEM_PROMPT = {
