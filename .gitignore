@@ -10,4 +10,6 @@ dist/
 server-out.txt
 client-out.txt
 server.err
-.env
+
+# Vercel
+.vercel
