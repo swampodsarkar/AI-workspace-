@@ -13,3 +13,5 @@ server.err
 
 # Vercel
 .vercel
+
+.env.vercel
