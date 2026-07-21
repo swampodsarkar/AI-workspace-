@@ -3,3 +3,11 @@ dist/
 .env
 *.log
 .DS_Store
+
+# Logs
+*.txt
+*.err
+server-out.txt
+client-out.txt
+server.err
+.env

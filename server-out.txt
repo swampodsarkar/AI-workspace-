@@ -1,2 +1,0 @@
-Server running on http://localhost:3001
-[0mGET /api/health [32m200[0m 3.431 ms - 54[0m
