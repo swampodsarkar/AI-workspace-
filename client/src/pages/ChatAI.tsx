@@ -135,7 +135,7 @@ export default function ChatAI() {
 
     try {
       const allMsgs = updated.map(m => ({ role: m.role, content: m.content }))
-      const data = await openRouterChat(allMsgs, model)
+      const data = await openRouterChat(allMsgs, model || 'openrouter/auto')
       const replyContent = data.choices?.[0]?.message?.content || 'No response'
       const withReply = [...updated, { role: 'assistant' as const, content: replyContent }]
       setMessages(withReply)

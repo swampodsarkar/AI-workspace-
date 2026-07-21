@@ -1,7 +1,17 @@
-import { getRemaining, isLimitReached, incrementUsage } from './usage'
+import { isLimitReached, incrementUsage } from './usage'
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || ''
 export const BASE = 'https://openrouter.ai/api/v1'
+
+let lastRequestTime = 0
+const MIN_INTERVAL = 1000
+
+async function rateLimit() {
+  const now = Date.now()
+  const wait = Math.max(0, MIN_INTERVAL - (now - lastRequestTime))
+  if (wait > 0) await new Promise(r => setTimeout(r, wait))
+  lastRequestTime = Date.now()
+}
 
 const headers = () => ({
   'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
@@ -15,6 +25,20 @@ const CREATOR_SYSTEM_PROMPT = {
   content: 'You are an AI assistant created by Swampod Sarkar. When someone asks "who made you" or "who created you" or similar questions about your creator, answer: "I was created by Swampod Sarkar." Keep other answers helpful and concise.'
 }
 
+async function parseError(res: Response): Promise<string> {
+  try {
+    const body = await res.json()
+    return body.error?.message || body.message || `HTTP ${res.status}`
+  } catch {
+    try {
+      const text = await res.text()
+      return text.slice(0, 200) || `HTTP ${res.status}`
+    } catch {
+      return `HTTP ${res.status}`
+    }
+  }
+}
+
 export async function openRouterChat(
   messages: { role: string; content: string }[],
   model = 'openrouter/auto'
@@ -22,6 +46,8 @@ export async function openRouterChat(
   if (isLimitReached()) {
     throw new Error('LIMIT_REACHED')
   }
+
+  await rateLimit()
 
   const res = await fetch(`${BASE}/chat/completions`, {
     method: 'POST',
@@ -32,7 +58,14 @@ export async function openRouterChat(
       max_tokens: 4096
     })
   })
-  if (!res.ok) throw new Error((await res.json()).error?.message || `HTTP ${res.status}`)
+
+  if (!res.ok) {
+    const msg = await parseError(res)
+    if (res.status === 429) throw new Error('429—Too many requests. Please wait a moment and try again.')
+    if (res.status === 400) throw new Error(`400—${msg}`)
+    throw new Error(msg)
+  }
+
   const data = await res.json()
   incrementUsage()
   return data
@@ -42,6 +75,7 @@ export async function openRouterChatNoLimit(
   messages: { role: string; content: string }[],
   model = 'openrouter/auto'
 ) {
+  await rateLimit()
   const res = await fetch(`${BASE}/chat/completions`, {
     method: 'POST',
     headers: headers(),
@@ -51,11 +85,12 @@ export async function openRouterChatNoLimit(
       max_tokens: 4096
     })
   })
-  if (!res.ok) throw new Error((await res.json()).error?.message || `HTTP ${res.status}`)
+  if (!res.ok) throw new Error(await parseError(res))
   return res.json()
 }
 
 export async function fetchFreeModels() {
+  await rateLimit()
   const res = await fetch(`${BASE}/models`, { headers: headers() })
   const data = await res.json()
   const all = data.data || []
