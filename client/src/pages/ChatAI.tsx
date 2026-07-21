@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { Bot, Send, User, Loader2, Plus, AlertTriangle } from 'lucide-react'
-import { useAuth } from '../lib/AuthContext'
+import { openRouterChat, getCachedModels } from '../lib/openrouter'
 
 interface Message { role: 'user' | 'assistant'; content: string }
 
 export default function ChatAI() {
-  const { user } = useAuth()
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Hello! I\'m your AI assistant. Free models only. How can I help you today?' }
   ])
@@ -13,51 +12,31 @@ export default function ChatAI() {
   const [loading, setLoading] = useState(false)
   const [model, setModel] = useState('')
   const [freeModels, setFreeModels] = useState<string[]>([])
-  const [usage, setUsage] = useState({ used: 0, remaining: 50, dailyLimit: 50, premium: false })
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
 
   useEffect(() => {
-    fetch('/api/models').then(r => r.json()).then(data => {
-      const ids = data.models?.map((m: any) => m.id) || []
+    getCachedModels().then(models => {
+      const ids = models.map((m: any) => m.id)
       setFreeModels(ids)
       if (ids.length > 0 && !model) setModel(ids[0])
     }).catch(() => {})
   }, [])
 
-  useEffect(() => {
-    if (user) {
-      fetch(`/api/usage-status?userId=${user.uid}`).then(r => r.json()).then(setUsage).catch(() => {})
-    }
-  }, [user])
-
   const sendMessage = async () => {
-    if (!input.trim() || loading || !user) return
-    if (usage.remaining <= 0 && !usage.premium) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Daily limit reached! Upgrade to premium for unlimited access.' }])
-      return
-    }
+    if (!input.trim() || loading) return
     const userMsg = input.trim()
     setInput('')
     setMessages(prev => [...prev, { role: 'user', content: userMsg }])
     setLoading(true)
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-User-Id': user.uid },
-        body: JSON.stringify({ message: userMsg, model, userId: user.uid })
-      })
-      const data = await res.json()
-      if (data.limitExceeded) {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Daily limit reached! Upgrade to premium.' }])
-      } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.reply || data.error || 'No response' }])
-      }
-      if (user) fetch(`/api/usage-status?userId=${user.uid}`).then(r => r.json()).then(setUsage).catch(() => {})
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong.' }])
+      const allMsgs = [...messages.filter(m => m.role !== 'system'), { role: 'user', content: userMsg }]
+      const data = await openRouterChat(allMsgs, model)
+      setMessages(prev => [...prev, { role: 'assistant', content: data.choices?.[0]?.message?.content || 'No response' }])
+    } catch (err: any) {
+      setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${err.message}` }])
     }
     setLoading(false)
   }
@@ -68,13 +47,7 @@ export default function ChatAI() {
         <div className="flex items-center gap-2">
           <Bot className="text-primary-400" size={22} />
           <h1 className="text-xl font-semibold">Chat AI</h1>
-          {!usage.premium ? (
-            <span className="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded-full">
-              {usage.remaining}/{usage.dailyLimit} free
-            </span>
-          ) : (
-            <span className="text-xs bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">Unlimited</span>
-          )}
+          <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">{freeModels.length} free models</span>
         </div>
         <div className="flex items-center gap-2">
           <select className="input text-sm py-1.5 w-auto max-w-[200px]" value={model} onChange={e => setModel(e.target.value)}>
@@ -88,22 +61,15 @@ export default function ChatAI() {
         </div>
       </div>
 
-      {usage.remaining <= 5 && !usage.premium && (
-        <div className="flex items-center gap-2 text-sm bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-2 mb-3 text-yellow-400 animate-fade-in">
-          <AlertTriangle size={16} />
-          Only {usage.remaining} free requests left today. <a href="/pricing" className="underline font-semibold ml-1">Upgrade</a>
-        </div>
-      )}
-
       <div className="flex-1 overflow-y-auto space-y-4 pr-2">
         {messages.map((m, i) => (
           <div key={i} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : ''} animate-fade-in`}>
             {m.role === 'assistant' && (
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-600/20">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <Bot size={16} className="text-white" />
               </div>
             )}
-            <div className={`max-w-[75%] p-3 rounded-2xl ${m.role === 'user' ? 'bg-gradient-to-r from-primary-600 to-primary-500 rounded-br-sm shadow-lg shadow-primary-600/20' : 'bg-dark-700/80 rounded-bl-sm border border-dark-600/50'}`}>
+            <div className={`max-w-[75%] p-3 rounded-2xl ${m.role === 'user' ? 'bg-gradient-to-r from-primary-600 to-primary-500 rounded-br-sm' : 'bg-dark-700/80 rounded-bl-sm border border-dark-600/50'}`}>
               <p className="text-sm whitespace-pre-wrap leading-relaxed">{m.content}</p>
             </div>
             {m.role === 'user' && (
@@ -130,10 +96,9 @@ export default function ChatAI() {
 
       <div className="mt-4 flex gap-2">
         <input className="input" value={input} onChange={e => setInput(e.target.value)}
-          placeholder={usage.remaining > 0 || usage.premium ? "Type your message..." : "Daily limit reached. Upgrade to continue."}
-          disabled={usage.remaining <= 0 && !usage.premium}
+          placeholder="Type your message..."
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())} />
-        <button className="btn-primary p-3 !rounded-xl" onClick={sendMessage} disabled={loading || !input.trim() || (usage.remaining <= 0 && !usage.premium)}>
+        <button className="btn-primary p-3 !rounded-xl" onClick={sendMessage} disabled={loading || !input.trim()}>
           {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
         </button>
       </div>
