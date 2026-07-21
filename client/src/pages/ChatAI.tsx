@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Bot, Send, User, Loader2, Plus, AlertTriangle, Info, Sparkles } from 'lucide-react'
+import { Bot, Send, User, Loader2, Plus, AlertTriangle, Info, Sparkles, ChevronDown, Search } from 'lucide-react'
 import { openRouterChat, getCachedModels } from '../lib/openrouter'
 import { getRemaining, isLimitReached } from '../lib/usage'
 
@@ -15,9 +15,18 @@ export default function ChatAI() {
   const [model, setModel] = useState('')
   const [freeModels, setFreeModels] = useState<string[]>([])
   const [remaining, setRemaining] = useState(getRemaining())
+  const [modelOpen, setModelOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const menuRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+
+  useEffect(() => {
+    const f = (e: MouseEvent) => { if (menuRef.current && !menuRef.current.contains(e.target as Node)) { setModelOpen(false); setSearch('') } }
+    document.addEventListener('mousedown', f)
+    return () => document.removeEventListener('mousedown', f)
+  }, [])
 
   useEffect(() => {
     getCachedModels().then(models => {
@@ -148,12 +157,58 @@ export default function ChatAI() {
             {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
           </button>
         </div>
+        {/* Model selector */}
         <div className="flex items-center justify-between">
-          <select className="input text-xs py-1.5 w-auto max-w-[220px] h-8" value={model} onChange={e => setModel(e.target.value)}>
-            {freeModels.map(id => (
-              <option key={id} value={id}>{id.split('/').pop()?.replace(/:free/g, '').replace(/-/g, ' ') || id}</option>
-            ))}
-          </select>
+          <div className="relative" ref={menuRef}>
+            <button onClick={() => setModelOpen(!modelOpen)}
+              className="flex items-center gap-2 bg-dark-800/80 border border-dark-700/60 hover:border-dark-500/80 rounded-lg px-3 py-1.5 text-xs transition-all duration-200 group">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-dark-200 font-medium truncate max-w-[120px]">{model.split('/').pop()?.replace(/:free/g, '').replace(/-/g, ' ') || 'Select model'}</span>
+              <ChevronDown size={12} className={`text-dark-400 transition-transform duration-200 ${modelOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {modelOpen && (
+              <div className="absolute bottom-full left-0 mb-2 w-64 bg-dark-800 border border-dark-700/80 rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50 animate-fade-in">
+                <div className="p-2 border-b border-dark-700/60">
+                  <div className="relative">
+                    <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-dark-400" />
+                    <input className="w-full bg-dark-900/80 border border-dark-700 rounded-lg pl-7 pr-2.5 py-1.5 text-xs text-white placeholder-dark-500 focus:outline-none focus:border-primary-500/50"
+                      placeholder="Search models..." value={search} onChange={e => setSearch(e.target.value)} autoFocus />
+                  </div>
+                </div>
+                <div className="max-h-52 overflow-y-auto p-1 space-y-0.5">
+                  {freeModels
+                    .filter(id => !search || id.toLowerCase().includes(search.toLowerCase()))
+                    .map(id => {
+                      const name = id.split('/').pop()?.replace(/:free/g, '').replace(/-/g, ' ') || id
+                      const provider = id.split('/')[0]
+                      const isActive = model === id
+                      return (
+                        <button key={id} onClick={() => { setModel(id); setModelOpen(false); setSearch('') }}
+                          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all text-left ${
+                            isActive
+                              ? 'bg-primary-600/15 text-primary-400 border border-primary-500/25'
+                              : 'text-dark-300 hover:bg-dark-700/70 hover:text-white border border-transparent'
+                          }`}>
+                          <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${isActive ? 'bg-primary-400' : 'bg-dark-500'}`} />
+                          <div className="flex-1 min-w-0">
+                            <p className="truncate font-medium">{name}</p>
+                            <p className="text-[10px] text-dark-500 truncate">{provider}</p>
+                          </div>
+                          {isActive && <div className="w-1.5 h-1.5 rounded-full bg-primary-400" />}
+                        </button>
+                      )
+                    })}
+                  {freeModels.filter(id => !search || id.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+                    <p className="text-xs text-dark-500 text-center py-3">No models found</p>
+                  )}
+                </div>
+                <div className="p-2 border-t border-dark-700/60 flex items-center justify-between">
+                  <span className="text-[10px] text-dark-500">{freeModels.length} free models</span>
+                  <span className="text-[10px] text-green-400/70 flex items-center gap-1"><div className="w-1 h-1 rounded-full bg-green-400" /> All free</span>
+                </div>
+              </div>
+            )}
+          </div>
           <span className="text-[11px] text-dark-500">{freeModels.length || 16} free models</span>
         </div>
       </div>
