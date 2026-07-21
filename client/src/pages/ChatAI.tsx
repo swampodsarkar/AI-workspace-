@@ -57,7 +57,7 @@ export default function ChatAI() {
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)] max-w-4xl mx-auto animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
             <Bot size={18} className="text-white" />
@@ -69,16 +69,9 @@ export default function ChatAI() {
             <Info size={10} /> {remaining}/{50}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <select className="input text-xs py-1.5 w-auto max-w-[180px] h-9" value={model} onChange={e => setModel(e.target.value)}>
-            {freeModels.map(id => (
-              <option key={id} value={id}>{id.split('/').pop()?.replace(/-/g, ' ') || id}</option>
-            ))}
-          </select>
-          <button className="btn-secondary p-2 h-9 w-9 flex items-center justify-center !rounded-lg" onClick={() => setMessages([{ role: 'assistant', content: "Hello! I'm your AI assistant. Free models only. How can I help you today?" }])}>
-            <Plus size={15} />
-          </button>
-        </div>
+        <button className="btn-secondary p-2 h-9 w-9 flex items-center justify-center !rounded-lg" onClick={() => setMessages([{ role: 'assistant', content: "Hello! I'm your AI assistant. Free models only. How can I help you today?" }])}>
+          <Plus size={15} />
+        </button>
       </div>
 
       {/* Warning banners */}
@@ -145,14 +138,24 @@ export default function ChatAI() {
       </div>
 
       {/* Input */}
-      <div className="mt-4 flex gap-2">
-        <input className="input" value={input} onChange={e => setInput(e.target.value)}
-          placeholder={remaining > 0 ? 'Type your message...' : 'Limit reached. Upgrade to continue.'}
-          disabled={isLimitReached()}
-          onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())} />
-        <button className="btn-primary p-3 h-11 w-11 flex items-center justify-center !rounded-xl" onClick={sendMessage} disabled={loading || !input.trim() || isLimitReached()}>
-          {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-        </button>
+      <div className="mt-4 space-y-2">
+        <div className="flex gap-2">
+          <input className="input" value={input} onChange={e => setInput(e.target.value)}
+            placeholder={remaining > 0 ? 'Type your message...' : 'Limit reached. Upgrade to continue.'}
+            disabled={isLimitReached()}
+            onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())} />
+          <button className="btn-primary p-3 h-11 w-11 flex items-center justify-center !rounded-xl flex-shrink-0" onClick={sendMessage} disabled={loading || !input.trim() || isLimitReached()}>
+            {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+          </button>
+        </div>
+        <div className="flex items-center justify-between">
+          <select className="input text-xs py-1.5 w-auto max-w-[220px] h-8" value={model} onChange={e => setModel(e.target.value)}>
+            {freeModels.map(id => (
+              <option key={id} value={id}>{id.split('/').pop()?.replace(/-/g, ' ') || id}</option>
+            ))}
+          </select>
+          <span className="text-[11px] text-dark-500">{freeModels.length || 16} free models</span>
+        </div>
       </div>
     </div>
   )

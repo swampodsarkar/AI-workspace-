@@ -1,18 +1,26 @@
 import { useState } from 'react'
-import { Image, Sparkles, Download, Loader2 } from 'lucide-react'
+import { Image, Sparkles, Download, Loader2, Info, AlertTriangle } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { openRouterChat } from '../lib/openrouter'
+import { isLimitReached, getRemaining, deductCredits } from '../lib/usage'
 
 const styles = ['Realistic', 'Anime', 'Oil Painting', '3D Render', 'Watercolor', 'Pixel Art', 'Sketch', 'Cyberpunk']
+const COST = 4
 
 export default function ImageGenerator() {
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState('')
   const [style, setStyle] = useState('Realistic')
+  const [remaining, setRemaining] = useState(getRemaining())
 
   const generate = async () => {
     if (!prompt.trim() || loading) return
+    if (remaining < COST) return
     setLoading(true)
+    const result = deductCredits(COST)
+    if (!result.allowed) { setLoading(false); return }
+    setRemaining(result.remaining)
     try {
       const data = await openRouterChat([
         { role: 'system', content: 'Generate a detailed image prompt from the user request. Return ONLY the prompt text.' },
@@ -25,38 +33,72 @@ export default function ImageGenerator() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex items-center gap-2 mb-6">
-        <Image className="text-primary-400" size={22} />
-        <h1 className="text-xl font-semibold">Image Generator</h1>
+    <div className="max-w-4xl mx-auto animate-fade-in">
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/20">
+            <Image size={18} className="text-white" />
+          </div>
+          <h1 className="text-lg font-semibold">Image Generator</h1>
+          <span className={`badge flex items-center gap-1 ${remaining < COST ? 'badge-red' : 'badge-green'}`}>
+            <Info size={10} /> {remaining}/{50}
+          </span>
+        </div>
+        <div className="flex items-center gap-1 text-xs text-dark-500 bg-dark-800/50 border border-dark-700/40 rounded-lg px-3 py-1.5">
+          <Sparkles size={11} className="text-yellow-400" />
+          1 image = {COST} credits
+        </div>
       </div>
+
+      {remaining < COST && remaining > 0 && (
+        <div className="flex items-center gap-2 text-sm bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-4 py-2.5 mb-4 text-yellow-400">
+          <AlertTriangle size={15} />
+          Not enough credits (need {COST}, have {remaining}). <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade</Link>
+        </div>
+      )}
+      {isLimitReached() && (
+        <div className="flex items-center gap-2 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5 mb-4 text-red-400">
+          <AlertTriangle size={15} />
+          Daily limit reached. <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade for unlimited</Link>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="card">
-            <div className="aspect-square rounded-xl bg-dark-700 flex items-center justify-center mb-4 overflow-hidden">
+            <div className="aspect-square rounded-xl bg-dark-700/80 flex items-center justify-center mb-4 overflow-hidden border border-dark-700/50">
               {image ? (
                 <img src={image} alt="Generated" className="w-full h-full object-cover" />
               ) : (
-                <div className="text-center text-dark-500"><Image size={48} className="mx-auto mb-2" /><p className="text-sm">Your generated image will appear here</p></div>
+                <div className="text-center text-dark-500 p-8">
+                  <Image size={48} className="mx-auto mb-3 opacity-50" />
+                  <p className="text-sm">Your generated image will appear here</p>
+                  <p className="text-xs text-dark-600 mt-1">Each generation costs {COST} credits</p>
+                </div>
               )}
             </div>
             {image && <button className="btn-secondary w-full flex items-center justify-center gap-2"><Download size={16} /> Download</button>}
           </div>
         </div>
         <div>
-          <div className="card">
-            <h3 className="font-semibold mb-3">Prompt</h3>
-            <textarea className="input mb-3 h-28 resize-none" placeholder="Describe the image..." value={prompt} onChange={e => setPrompt(e.target.value)} />
-            <h3 className="font-semibold mb-2 text-sm">Style</h3>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {styles.map(s => (
-                <button key={s} className={`text-xs px-3 py-1.5 rounded-full border transition-all ${style === s ? 'bg-primary-600 border-primary-500' : 'border-dark-600 text-dark-300 hover:border-dark-400'}`} onClick={() => setStyle(s)}>{s}</button>
-              ))}
+          <div className="card space-y-4">
+            <div>
+              <h3 className="font-semibold text-sm mb-1.5">Prompt</h3>
+              <textarea className="input h-28 resize-none" placeholder="Describe the image..." value={prompt} onChange={e => setPrompt(e.target.value)} />
             </div>
-            <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={generate} disabled={loading || !prompt.trim()}>
+            <div>
+              <h3 className="font-semibold text-sm mb-2">Style</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {styles.map(s => (
+                  <button key={s} className={`text-xs px-3 py-1.5 rounded-full border transition-all ${style === s ? 'bg-primary-600 border-primary-500 text-white' : 'border-dark-600 text-dark-300 hover:border-dark-400 hover:text-white'}`} onClick={() => setStyle(s)}>{s}</button>
+                ))}
+              </div>
+            </div>
+            <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={generate} disabled={loading || !prompt.trim() || remaining < COST}>
               {loading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
-              {loading ? 'Generating...' : 'Generate'}
+              {loading ? 'Generating...' : `Generate (${COST} credits)`}
             </button>
+            <p className="text-[11px] text-dark-500 text-center">You have <strong className="text-dark-400">{remaining}</strong> credits remaining</p>
           </div>
         </div>
       </div>

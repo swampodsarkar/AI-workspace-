@@ -46,6 +46,13 @@ export function incrementUsage(): { remaining: number; used: number; limit: numb
   }
 }
 
+export function deductCredits(count: number): { allowed: boolean; remaining: number } {
+  const remaining = getRemaining()
+  if (remaining < count) return { allowed: false, remaining }
+  for (let i = 0; i < count; i++) incrementUsage()
+  return { allowed: true, remaining: getRemaining() }
+}
+
 export function useUsageTracker() {
   const checkAndIncrement = (): { allowed: boolean; remaining: number } => {
     const remaining = getRemaining()
