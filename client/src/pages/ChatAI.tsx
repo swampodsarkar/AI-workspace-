@@ -151,7 +151,7 @@ export default function ChatAI() {
         <div className="flex items-center justify-between">
           <select className="input text-xs py-1.5 w-auto max-w-[220px] h-8" value={model} onChange={e => setModel(e.target.value)}>
             {freeModels.map(id => (
-              <option key={id} value={id}>{id.split('/').pop()?.replace(/-/g, ' ') || id}</option>
+              <option key={id} value={id}>{id.split('/').pop()?.replace(/:free/g, '').replace(/-/g, ' ') || id}</option>
             ))}
           </select>
           <span className="text-[11px] text-dark-500">{freeModels.length || 16} free models</span>
