@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
-import { Bot, FileText, PenSquare, Image, Table, Code, Globe, Mail, BarChart3, Cloud, Sparkles } from 'lucide-react'
+import { Bot, FileText, PenSquare, Image, Table, Code, Globe, Mail, BarChart3, Cloud, Sparkles, Info, AlertTriangle } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { getRemaining, isLimitReached } from '../lib/usage'
 
 const tools = [
   { to: '/chat', icon: Bot, label: 'Chat AI', desc: 'Smart AI conversations', color: 'from-blue-500 to-cyan-500', gradient: 'from-blue-600/20 to-cyan-600/20' },
@@ -34,6 +35,17 @@ export default function Dashboard() {
           <h1 className="text-2xl lg:text-3xl font-bold">{greeting}, <span className="gradient-text">{user?.displayName || user?.email?.split('@')[0] || 'User'}</span></h1>
           <p className="text-dark-300 mt-2">What would you like to create today?</p>
           <p className="text-sm text-dark-400 mt-2">{user?.email}</p>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <div className="flex items-center gap-2 text-sm bg-primary-500/10 border border-primary-500/20 rounded-lg px-4 py-2">
+            <Sparkles size={16} className="text-yellow-400" />
+            <span>Free Tier — <strong>{getRemaining()}/50</strong> requests left today</span>
+          </div>
+          {isLimitReached() && (
+            <Link to="/pricing" className="flex items-center gap-2 text-sm bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20">
+              <AlertTriangle size={16} /> Limit reached — <span className="underline">Upgrade</span>
+            </Link>
+          )}
         </div>
       </div>
       <div>

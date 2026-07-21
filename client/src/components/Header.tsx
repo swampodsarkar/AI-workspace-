@@ -1,7 +1,8 @@
-import { Menu, Search, User, LogOut, ChevronDown } from 'lucide-react'
+import { Menu, Search, User, LogOut, ChevronDown, Info } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
+import { getRemaining } from '../lib/usage'
 import Sidebar from './Sidebar'
 
 export default function Header() {
@@ -32,6 +33,9 @@ export default function Header() {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 flex items-center gap-1 hidden sm:inline-flex">
+            <Info size={10} /> Free — {getRemaining()}/50 left
+          </span>
           <div className="relative" ref={menuRef}>
             <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center gap-2 hover:bg-dark-700 rounded-lg px-2 py-1.5 transition-colors">
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center overflow-hidden flex-shrink-0">

@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import { Bot, FileText, PenSquare, Image as ImageIcon, Table, Code, Globe, Mail, BarChart3, Cloud, LayoutDashboard, X } from 'lucide-react'
+import { Bot, FileText, PenSquare, Image as ImageIcon, Table, Code, Globe, Mail, BarChart3, Cloud, LayoutDashboard, X, Sparkles } from 'lucide-react'
+import { getRemaining } from '../lib/usage'
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -32,7 +33,16 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             {item.label}
           </NavLink>
         ))}</nav>
-        <div className="p-4 border-t border-dark-700 text-xs text-dark-500 text-center">AI Workspace v1.0</div>
+        <div className="p-3 border-t border-dark-700">
+          <div className="bg-dark-800/80 border border-dark-600/50 rounded-lg p-3">
+            <div className="flex items-center gap-2 mb-1.5">
+              <Sparkles size={12} className="text-yellow-400" />
+              <span className="text-xs font-medium text-yellow-400">Free Tier</span>
+            </div>
+            <p className="text-xs text-dark-400">{getRemaining()}/50 requests left today</p>
+            <NavLink to="/pricing" className="mt-2 text-xs text-primary-400 hover:text-primary-300 underline inline-block">Upgrade →</NavLink>
+          </div>
+        </div>
       </aside>
 
       {mobileOpen && (
