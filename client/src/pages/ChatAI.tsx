@@ -18,6 +18,7 @@ export default function ChatAI() {
 
   useEffect(() => {
     getCachedModels().then(models => {
+      if (!models) return
       const ids = models.map((m: any) => m.id)
       setFreeModels(ids)
       if (ids.length > 0 && !model) setModel(ids[0])
@@ -32,7 +33,7 @@ export default function ChatAI() {
     setLoading(true)
 
     try {
-      const allMsgs = [...messages.filter(m => m.role !== 'system'), { role: 'user', content: userMsg }]
+      const allMsgs = [...messages.map(m => ({ role: m.role, content: m.content })), { role: 'user' as const, content: userMsg }]
       const data = await openRouterChat(allMsgs, model)
       setMessages(prev => [...prev, { role: 'assistant', content: data.choices?.[0]?.message?.content || 'No response' }])
     } catch (err: any) {
