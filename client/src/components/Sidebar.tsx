@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { Bot, FileText, PenSquare, Image as ImageIcon, Table, Code, Globe, Mail, BarChart3, Cloud, LayoutDashboard, X, Sparkles } from 'lucide-react'
+import { Bot, FileText, PenSquare, Image as ImageIcon, Table, Code, Globe, Mail, BarChart3, Cloud, LayoutDashboard, X, Sparkles, Coins } from 'lucide-react'
 import { getRemaining, isLimitReached } from '../lib/usage'
+import { getCoinBalance } from '../lib/coins'
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/chat', icon: Bot, label: 'Chat AI' },
+  { to: '/earn', icon: Coins, label: 'Earn Coins' },
   { to: '/pdf', icon: FileText, label: 'PDF Tools' },
   { to: '/documents', icon: PenSquare, label: 'Document Editor' },
   { to: '/image', icon: ImageIcon, label: 'Image Generator' },
@@ -68,7 +70,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                 style={{ width: `${(getRemaining() / 50) * 100}%` }}
               />
             </div>
-            <NavLink to="/pricing" onClick={onClose} className="mt-2 block text-center text-xs text-primary-400 hover:text-primary-300 bg-primary-500/10 hover:bg-primary-500/20 rounded-lg py-1.5 transition-colors font-medium">
+            <div className="flex items-center justify-between text-xs pt-1.5 border-t border-dark-700/40 mt-1.5">
+              <span className="text-dark-400 flex items-center gap-1"><Coins size={10} /> Coins</span>
+              <span className="font-semibold text-yellow-400">{getCoinBalance()}</span>
+            </div>
+            <NavLink to="/earn" onClick={onClose} className="mt-1.5 block text-center text-[10px] text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-lg py-1.5 transition-colors font-medium">
+              + Earn Free Coins
+            </NavLink>
+            <NavLink to="/pricing" onClick={onClose} className="mt-1.5 block text-center text-xs text-primary-400 hover:text-primary-300 bg-primary-500/10 hover:bg-primary-500/20 rounded-lg py-1.5 transition-colors font-medium">
               Upgrade to Pro →
             </NavLink>
           </div>
@@ -129,7 +138,14 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                     <div className={`h-full rounded-full transition-all duration-500 ${isLimitReached() ? 'bg-red-500' : 'bg-gradient-to-r from-primary-500 to-primary-400'}`}
                       style={{ width: `${(getRemaining() / 50) * 100}%` }} />
                   </div>
-                  <NavLink to="/pricing" onClick={onClose} className="mt-2 block text-center text-xs text-primary-400 hover:text-primary-300 bg-primary-500/10 hover:bg-primary-500/20 rounded-lg py-1.5 transition-colors font-medium">
+                  <div className="flex items-center justify-between text-xs pt-1.5 border-t border-dark-700/40 mt-1.5">
+                    <span className="text-dark-400 flex items-center gap-1"><Coins size={10} /> Coins</span>
+                    <span className="font-semibold text-yellow-400">{getCoinBalance()}</span>
+                  </div>
+                  <NavLink to="/earn" onClick={onClose} className="mt-1.5 block text-center text-[10px] text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-lg py-1.5 transition-colors font-medium">
+                    + Earn Free Coins
+                  </NavLink>
+                  <NavLink to="/pricing" onClick={onClose} className="mt-1.5 block text-center text-xs text-primary-400 hover:text-primary-300 bg-primary-500/10 hover:bg-primary-500/20 rounded-lg py-1.5 transition-colors font-medium">
                     Upgrade to Pro →
                   </NavLink>
                 </div>

@@ -5,6 +5,7 @@ import { openRouterChat, getCachedModels } from '../lib/openrouter'
 import { getRemaining, isLimitReached } from '../lib/usage'
 import { getChatHistory, saveChatHistory, createSession, generateTitle } from '../lib/chatHistory'
 import type { ChatSession } from '../lib/chatHistory'
+import { getCoinBalance, spendCoins, hasEnoughCoins, COINS_PER_REQUEST } from '../lib/coins'
 
 interface Message { role: 'user' | 'assistant'; content: string }
 
@@ -118,8 +119,12 @@ export default function ChatAI() {
   const sendMessage = async () => {
     if (!input.trim() || loading) return
     if (isLimitReached()) {
-      setMessages(prev => [...prev, { role: 'assistant', content: "⚠️ **Daily free limit reached!** You've used all 50 requests for today. [Upgrade to Pro](/pricing) for unlimited access." }])
-      return
+      if (spendCoins(COINS_PER_REQUEST)) {
+        setRemaining(0)
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: `⚠️ **Daily free limit reached!** You have ${getCoinBalance()} coins. [Earn more coins](/earn) or [Upgrade to Pro](/pricing) for unlimited access.` }])
+        return
+      }
     }
     const userMsg = input.trim()
     setInput('')
@@ -241,7 +246,8 @@ export default function ChatAI() {
           <div className="flex items-center gap-2 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 mb-3 text-red-400 animate-fade-in">
             <AlertTriangle size={15} />
             Daily limit reached.{' '}
-            <Link to="/pricing" className="underline font-semibold ml-auto whitespace-nowrap">Upgrade for unlimited</Link>
+            <Link to="/earn" className="underline font-semibold ml-auto whitespace-nowrap">Earn coins ({getCoinBalance()})</Link>
+            <Link to="/pricing" className="underline font-semibold whitespace-nowrap ml-2">Upgrade</Link>
           </div>
         )}
 
@@ -290,10 +296,10 @@ export default function ChatAI() {
         <div className="mt-4 space-y-2">
           <div className="flex gap-2">
             <input className="input" value={input} onChange={e => setInput(e.target.value)}
-              placeholder={remaining > 0 ? 'Type your message...' : 'Limit reached. Upgrade to continue.'}
-              disabled={isLimitReached()}
+              placeholder={remaining > 0 ? 'Type your message...' : isLimitReached() && !hasEnoughCoins(COINS_PER_REQUEST) ? 'Limit reached. Earn coins or upgrade.' : 'Type your message (using coins)...'}
+              disabled={isLimitReached() && !hasEnoughCoins(COINS_PER_REQUEST)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())} />
-            <button className="btn-primary p-3 h-11 w-11 flex items-center justify-center !rounded-xl flex-shrink-0" onClick={sendMessage} disabled={loading || !input.trim() || isLimitReached()}>
+            <button className="btn-primary p-3 h-11 w-11 flex items-center justify-center !rounded-xl flex-shrink-0" onClick={sendMessage} disabled={loading || !input.trim() || (isLimitReached() && !hasEnoughCoins(COINS_PER_REQUEST))}>
               {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
             </button>
           </div>

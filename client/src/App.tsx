@@ -12,6 +12,7 @@ import WebsiteBuilder from './pages/WebsiteBuilder'
 import EmailWriter from './pages/EmailWriter'
 import DataAnalysis from './pages/DataAnalysis'
 import CloudStorage from './pages/CloudStorage'
+import Earn from './pages/Earn'
 import Pricing from './pages/Pricing'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -48,6 +49,7 @@ export default function App() {
         <Route path="email" element={<EmailWriter />} />
         <Route path="analysis" element={<DataAnalysis />} />
         <Route path="storage" element={<CloudStorage />} />
+        <Route path="earn" element={<Earn />} />
       </Route>
     </Routes>
   )
