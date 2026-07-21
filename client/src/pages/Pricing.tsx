@@ -7,7 +7,7 @@ const plans = [
     price: '0',
     currency: 'BDT',
     popular: false,
-    features: ['10 AI chat messages/day', '5 PDF conversions/month', 'Basic document editor', '1GB cloud storage', 'Standard support'],
+    features: ['50 AI chat messages/day', '5 PDF conversions/month', 'Basic document editor', '1GB cloud storage', 'Standard support'],
     bKash: false,
   },
   {
