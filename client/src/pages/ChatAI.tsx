@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { Bot, Send, User, Loader2, Plus, AlertTriangle, Info, Sparkles, ChevronDown, Search, Clock, Trash2, MessageSquare, PanelLeftClose, PanelLeft, ChevronRight } from 'lucide-react'
+import { Bot, Send, User, Loader2, Plus, AlertTriangle, Info, ChevronDown, Search, Clock, Trash2, MessageSquare, PanelLeftClose, PanelLeft } from 'lucide-react'
 import { openRouterChat, getCachedModels } from '../lib/openrouter'
 import { getRemaining, isLimitReached } from '../lib/usage'
 import { getChatHistory, saveChatHistory, createSession, generateTitle } from '../lib/chatHistory'
@@ -245,12 +245,6 @@ export default function ChatAI() {
           </div>
         )}
 
-        {/* Free tier notice */}
-        <div className="mb-3 text-xs text-dark-500 text-center bg-dark-800/30 border border-dark-700/40 rounded-xl py-2 px-4 flex items-center justify-center gap-1.5">
-          <Sparkles size={11} className="text-yellow-400" />
-          Free tier — {freeModels.length || 16}+ free AI models &bull; 50 requests/day
-        </div>
-
         {/* Messages */}
         <div className="flex-1 overflow-y-auto space-y-4 pr-1">
           {messages.map((m, i) => (
@@ -348,14 +342,13 @@ export default function ChatAI() {
                       <p className="text-xs text-dark-500 text-center py-3">No models found</p>
                     )}
                   </div>
-                  <div className="p-2 border-t border-dark-700/60 flex items-center justify-between">
-                    <span className="text-[10px] text-dark-500">{freeModels.length} free models</span>
-                    <span className="text-[10px] text-green-400/70 flex items-center gap-1"><div className="w-1 h-1 rounded-full bg-green-400" /> All free</span>
-                  </div>
+                <div className="p-2 border-t border-dark-700/60">
+                  <span className="text-[10px] text-dark-500">{freeModels.length} models</span>
+                </div>
                 </div>
               )}
             </div>
-            <span className="text-[11px] text-dark-500">{freeModels.length || 16} free models</span>
+            <span className="text-[11px] text-dark-500">{freeModels.length} models</span>
           </div>
         </div>
       </div>
