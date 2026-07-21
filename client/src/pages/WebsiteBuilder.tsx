@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Globe, Monitor, Code as CodeIcon, Sparkles } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { openRouterChat } from '../lib/openrouter'
 
 const templates = ['Blank', 'Business', 'Portfolio', 'Blog', 'Landing Page', 'E-commerce']
@@ -27,17 +27,17 @@ export default function WebsiteBuilder() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="flex items-center gap-2 mb-6"><Globe className="text-primary-400" size={22} /><h1 className="text-xl font-semibold">Website Builder</h1></div>
+      <div className="flex items-center gap-2 mb-6"><Icons.Globe className="text-primary-400" size={22} /><h1 className="text-xl font-semibold">Website Builder</h1></div>
       <div className="flex gap-2 mb-4 flex-wrap">
         <input className="input flex-1 min-w-[200px]" placeholder="Describe the website..." value={prompt} onChange={e => setPrompt(e.target.value)} onKeyDown={e => e.key === 'Enter' && generate()} />
         <select className="input w-auto" value={template} onChange={e => setTemplate(e.target.value)}>{templates.map(t => <option key={t} value={t}>{t}</option>)}</select>
-        <button className="btn-primary flex items-center gap-2" onClick={generate} disabled={loading}><Sparkles size={16} /> {loading ? '...' : 'Generate'}</button>
+        <button className="btn-primary flex items-center gap-2" onClick={generate} disabled={loading}><Icons.Sparkles size={16} /> {loading ? '...' : 'Generate'}</button>
       </div>
       <div className="card p-0 overflow-hidden">
         <div className="flex items-center justify-between px-4 py-2 border-b border-dark-700 bg-dark-800/50">
           <div className="flex items-center gap-1">
-            <button className={`p-1.5 rounded text-xs flex items-center gap-1 ${view === 'preview' ? 'bg-primary-600/20 text-primary-400' : 'text-dark-400'}`} onClick={() => setView('preview')}><Monitor size={14} /> Preview</button>
-            <button className={`p-1.5 rounded text-xs flex items-center gap-1 ${view === 'code' ? 'bg-primary-600/20 text-primary-400' : 'text-dark-400'}`} onClick={() => setView('code')}><CodeIcon size={14} /> Code</button>
+            <button className={`p-1.5 rounded text-xs flex items-center gap-1 ${view === 'preview' ? 'bg-primary-600/20 text-primary-400' : 'text-dark-400'}`} onClick={() => setView('preview')}><Icons.Monitor size={14} /> Preview</button>
+            <button className={`p-1.5 rounded text-xs flex items-center gap-1 ${view === 'code' ? 'bg-primary-600/20 text-primary-400' : 'text-dark-400'}`} onClick={() => setView('code')}><Icons.Code size={14} /> Code</button>
           </div>
         </div>
         {view === 'preview' ? <iframe srcDoc={html} className="w-full h-[500px] bg-white" title="Preview" /> : <textarea className="w-full bg-dark-900 p-4 text-sm font-mono outline-none resize-none min-h-[500px] text-green-400" value={html} onChange={e => setHtml(e.target.value)} spellCheck={false} />}

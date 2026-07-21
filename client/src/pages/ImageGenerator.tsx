@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Image, Sparkles, Download, Loader2, Info, AlertTriangle } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { Link } from 'react-router-dom'
 import { openRouterChat } from '../lib/openrouter'
 import { isLimitReached, getRemaining, deductCredits } from '../lib/usage'
@@ -37,28 +37,28 @@ export default function ImageGenerator() {
       <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/20">
-            <Image size={18} className="text-white" />
+            <Icons.Image size={18} className="text-white" />
           </div>
           <h1 className="text-lg font-semibold">Image Generator</h1>
           <span className={`badge flex items-center gap-1 ${remaining < COST ? 'badge-red' : 'badge-green'}`}>
-            <Info size={10} /> {remaining}/{50}
+            <Icons.Info size={10} /> {remaining}/{50}
           </span>
         </div>
         <div className="flex items-center gap-1 text-xs text-dark-500 bg-dark-800/50 border border-dark-700/40 rounded-lg px-3 py-1.5">
-          <Sparkles size={11} className="text-yellow-400" />
+          <Icons.Sparkles size={11} className="text-yellow-400" />
           1 image = {COST} credits
         </div>
       </div>
 
       {remaining < COST && remaining > 0 && (
         <div className="flex items-center gap-2 text-sm bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-4 py-2.5 mb-4 text-yellow-400">
-          <AlertTriangle size={15} />
+          <Icons.AlertTriangle size={15} />
           Not enough credits (need {COST}, have {remaining}). <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade</Link>
         </div>
       )}
       {isLimitReached() && (
         <div className="flex items-center gap-2 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5 mb-4 text-red-400">
-          <AlertTriangle size={15} />
+          <Icons.AlertTriangle size={15} />
           Daily limit reached. <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade for unlimited</Link>
         </div>
       )}
@@ -71,13 +71,13 @@ export default function ImageGenerator() {
                 <img src={image} alt="Generated" className="w-full h-full object-cover" />
               ) : (
                 <div className="text-center text-dark-500 p-8">
-                  <Image size={48} className="mx-auto mb-3 opacity-50" />
+                  <Icons.Image size={48} className="mx-auto mb-3 opacity-50" />
                   <p className="text-sm">Your generated image will appear here</p>
                   <p className="text-xs text-dark-600 mt-1">Each generation costs {COST} credits</p>
                 </div>
               )}
             </div>
-            {image && <button className="btn-secondary w-full flex items-center justify-center gap-2"><Download size={16} /> Download</button>}
+            {image && <button className="btn-secondary w-full flex items-center justify-center gap-2"><Icons.Download size={16} /> Download</button>}
           </div>
         </div>
         <div>
@@ -95,7 +95,7 @@ export default function ImageGenerator() {
               </div>
             </div>
             <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={generate} disabled={loading || !prompt.trim() || remaining < COST}>
-              {loading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
+              {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Icons.Sparkles size={16} />}
               {loading ? 'Generating...' : `Generate (${COST} credits)`}
             </button>
             <p className="text-[11px] text-dark-500 text-center">You have <strong className="text-dark-400">{remaining}</strong> credits remaining</p>

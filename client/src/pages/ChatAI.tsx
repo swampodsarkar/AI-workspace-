@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { Bot, Send, User, Loader2, Plus, AlertTriangle, Info, ChevronDown, Search, Clock, Trash2, MessageSquare, PanelLeftClose, PanelLeft } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { openRouterChat, getCachedModels } from '../lib/openrouter'
 import { getRemaining, isLimitReached } from '../lib/usage'
 import { getChatHistory, saveChatHistory, createSession, generateTitle } from '../lib/chatHistory'
@@ -177,15 +177,15 @@ export default function ChatAI() {
       <div ref={historyRef} className={`${showHistory ? 'w-60 lg:w-72' : 'w-0'} flex-shrink-0 transition-all duration-300 overflow-hidden border-r border-dark-700/50 bg-dark-800/30`}>
         <div className="flex flex-col h-full min-w-60 lg:min-w-72">
           <div className="p-3 border-b border-dark-700/50 flex items-center justify-between">
-            <span className="text-xs font-semibold text-dark-300 flex items-center gap-1.5"><Clock size={13} /> History</span>
+            <span className="text-xs font-semibold text-dark-300 flex items-center gap-1.5"><Icons.Clock size={13} /> History</span>
             <button onClick={newSession} className="btn-secondary p-1.5 h-7 w-7 flex items-center justify-center !rounded-lg" title="New chat">
-              <Plus size={13} />
+              <Icons.Plus size={13} />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-2 space-y-1">
             {sessions.length === 0 ? (
               <div className="text-center py-8">
-                <MessageSquare size={28} className="mx-auto text-dark-600 mb-2" />
+                <Icons.MessageSquare size={28} className="mx-auto text-dark-600 mb-2" />
                 <p className="text-xs text-dark-500">No chat history yet</p>
               </div>
             ) : sessions.map(s => (
@@ -195,14 +195,14 @@ export default function ChatAI() {
                     ? 'bg-primary-600/10 border border-primary-500/20'
                     : 'hover:bg-dark-700/50 border border-transparent'
                 }`}>
-                <MessageSquare size={13} className={`mt-0.5 flex-shrink-0 ${s.id === activeId ? 'text-primary-400' : 'text-dark-500'}`} />
+                <Icons.MessageSquare size={13} className={`mt-0.5 flex-shrink-0 ${s.id === activeId ? 'text-primary-400' : 'text-dark-500'}`} />
                 <div className="flex-1 min-w-0">
                   <p className={`truncate font-medium ${s.id === activeId ? 'text-primary-300' : 'text-dark-200'}`}>{s.title}</p>
                   <p className="text-[10px] text-dark-500 mt-0.5">{formatDate(s.updatedAt)} &bull; {s.messages.length} msgs</p>
                 </div>
                 <button onClick={(e) => deleteSession(s.id, e)}
                   className="opacity-0 group-hover:opacity-100 text-dark-500 hover:text-red-400 p-0.5 transition-all flex-shrink-0">
-                  <Trash2 size={12} />
+                  <Icons.Trash2 size={12} />
                 </button>
               </button>
             ))}
@@ -216,35 +216,35 @@ export default function ChatAI() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <button onClick={() => setShowHistory(!showHistory)} className="btn-ghost p-1.5 !rounded-lg text-dark-400 hover:text-white" title={showHistory ? 'Hide history' : 'Show history'}>
-              {showHistory ? <PanelLeftClose size={16} /> : <PanelLeft size={16} />}
+              {showHistory ? <Icons.PanelLeftClose size={16} /> : <Icons.PanelLeft size={16} />}
             </button>
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
-              <Bot size={16} className="text-white" />
+              <Icons.Bot size={16} className="text-white" />
             </div>
             <div>
               <h1 className="text-base font-semibold">Chat AI</h1>
               {activeSession && <p className="text-[10px] text-dark-500 truncate max-w-[200px]">{activeSession.title}</p>}
             </div>
             <span className={`badge flex items-center gap-1 ${remaining <= 5 ? 'badge-red' : 'badge-green'}`}>
-              <Info size={10} /> {remaining}/{50}
+              <Icons.Info size={10} /> {remaining}/{50}
             </span>
           </div>
           <button className="btn-secondary p-1.5 h-7 flex items-center gap-1.5 !rounded-lg text-xs" onClick={clearActive}>
-            <Plus size={12} /> New
+            <Icons.Plus size={12} /> New
           </button>
         </div>
 
         {/* Warning banners */}
         {remaining <= 5 && remaining > 0 && (
           <div className="flex items-center gap-2 text-sm bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-4 py-2 mb-3 text-yellow-400 animate-fade-in">
-            <AlertTriangle size={15} />
+            <Icons.AlertTriangle size={15} />
             Only <strong className="mx-1">{remaining}</strong> free requests left today.{' '}
             <Link to="/pricing" className="underline font-semibold ml-auto whitespace-nowrap">Upgrade</Link>
           </div>
         )}
         {isLimitReached() && (
           <div className="flex items-center gap-2 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 mb-3 text-red-400 animate-fade-in">
-            <AlertTriangle size={15} />
+            <Icons.AlertTriangle size={15} />
             Daily limit reached.{' '}
             <Link to="/earn" className="underline font-semibold ml-auto whitespace-nowrap">Earn coins ({getCoinBalance()})</Link>
             <Link to="/pricing" className="underline font-semibold whitespace-nowrap ml-2">Upgrade</Link>
@@ -257,7 +257,7 @@ export default function ChatAI() {
             <div key={i} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : ''} animate-fade-in`}>
               {m.role === 'assistant' && (
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                  <Bot size={16} className="text-white" />
+                  <Icons.Bot size={16} className="text-white" />
                 </div>
               )}
               <div className={`max-w-[82%] md:max-w-[78%] p-3.5 rounded-2xl text-sm leading-relaxed ${
@@ -269,7 +269,7 @@ export default function ChatAI() {
               </div>
               {m.role === 'user' && (
                 <div className="w-8 h-8 rounded-xl bg-dark-700 border border-dark-600 flex items-center justify-center flex-shrink-0">
-                  <User size={15} className="text-dark-300" />
+                  <Icons.User size={15} className="text-dark-300" />
                 </div>
               )}
             </div>
@@ -278,7 +278,7 @@ export default function ChatAI() {
           {loading && (
             <div className="flex gap-3 animate-fade-in">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                <Bot size={16} className="text-white" />
+                <Icons.Bot size={16} className="text-white" />
               </div>
               <div className="bg-dark-800/70 border border-dark-700/50 rounded-2xl rounded-tl-sm p-4">
                 <div className="flex gap-1.5">
@@ -300,7 +300,7 @@ export default function ChatAI() {
               disabled={isLimitReached() && !hasEnoughCoins(COINS_PER_REQUEST)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), sendMessage())} />
             <button className="btn-primary p-3 h-11 w-11 flex items-center justify-center !rounded-xl flex-shrink-0" onClick={sendMessage} disabled={loading || !input.trim() || (isLimitReached() && !hasEnoughCoins(COINS_PER_REQUEST))}>
-              {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+              {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Icons.Send size={16} />}
             </button>
           </div>
           {/* Model selector */}
@@ -310,13 +310,13 @@ export default function ChatAI() {
                 className="flex items-center gap-2 bg-dark-800/80 border border-dark-700/60 hover:border-dark-500/80 rounded-lg px-3 py-1.5 text-xs transition-all duration-200 group">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-dark-200 font-medium truncate max-w-[120px]">{model.split('/').pop()?.replace(/:free/g, '').replace(/-/g, ' ') || 'Select model'}</span>
-                <ChevronDown size={12} className={`text-dark-400 transition-transform duration-200 ${modelOpen ? 'rotate-180' : ''}`} />
+                <Icons.ChevronDown size={12} className={`text-dark-400 transition-transform duration-200 ${modelOpen ? 'rotate-180' : ''}`} />
               </button>
               {modelOpen && (
                 <div className="absolute bottom-full left-0 mb-2 w-64 bg-dark-800 border border-dark-700/80 rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50 animate-fade-in">
                   <div className="p-2 border-b border-dark-700/60">
                     <div className="relative">
-                      <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-dark-400" />
+                      <Icons.Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-dark-400" />
                       <input className="w-full bg-dark-900/80 border border-dark-700 rounded-lg pl-7 pr-2.5 py-1.5 text-xs text-white placeholder-dark-500 focus:outline-none focus:border-primary-500/50"
                         placeholder="Search models..." value={search} onChange={e => setSearch(e.target.value)} autoFocus />
                     </div>

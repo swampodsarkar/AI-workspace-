@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Cloud, Upload, File, Folder, Download, Trash2, Share2, Search } from 'lucide-react'
+import { Icons } from '../lib/icons'
 
 const initialFiles = [
   { name: 'Project Report.pdf', size: '2.4 MB', type: 'pdf', date: '2 hours ago' },
@@ -26,11 +26,11 @@ export default function CloudStorage() {
     <div className="max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <Cloud className="text-primary-400" size={22} />
+          <Icons.Cloud className="text-primary-400" size={22} />
           <h1 className="text-xl font-semibold">Cloud Storage</h1>
         </div>
         <button className="btn-primary flex items-center gap-2">
-          <Upload size={16} /> Upload File
+          <Icons.Upload size={16} /> Upload File
         </button>
       </div>
 
@@ -47,7 +47,7 @@ export default function CloudStorage() {
       <div className="card p-0 overflow-hidden">
         <div className="p-4 border-b border-dark-700">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-dark-400" />
+            <Icons.Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-dark-400" />
             <input className="input pl-9" placeholder="Search files..." value={search} onChange={e => setSearch(e.target.value)} />
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function CloudStorage() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-primary-600/20 flex items-center justify-center flex-shrink-0">
-                        <File size={16} className="text-primary-400" />
+                        <Icons.File size={16} className="text-primary-400" />
                       </div>
                       <span className="truncate max-w-[200px]">{file.name}</span>
                     </div>
@@ -77,9 +77,9 @@ export default function CloudStorage() {
                   <td className="p-4 text-dark-400 hidden md:table-cell">{file.date}</td>
                   <td className="p-4 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <button className="p-2 rounded hover:bg-dark-700 text-dark-400 hover:text-white"><Download size={14} /></button>
-                      <button className="p-2 rounded hover:bg-dark-700 text-dark-400 hover:text-white"><Share2 size={14} /></button>
-                      <button className="p-2 rounded hover:bg-dark-700 text-red-400"><Trash2 size={14} /></button>
+                      <button className="p-2 rounded hover:bg-dark-700 text-dark-400 hover:text-white"><Icons.Download size={14} /></button>
+                      <button className="p-2 rounded hover:bg-dark-700 text-dark-400 hover:text-white"><Icons.Share2 size={14} /></button>
+                      <button className="p-2 rounded hover:bg-dark-700 text-red-400"><Icons.Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>

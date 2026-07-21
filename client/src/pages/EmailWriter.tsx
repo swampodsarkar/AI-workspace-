@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mail, Send, Sparkles } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { openRouterChat } from '../lib/openrouter'
 
 const tones = ['Professional', 'Friendly', 'Casual', 'Formal', 'Persuasive']
@@ -27,14 +27,14 @@ export default function EmailWriter() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex items-center gap-2 mb-6"><Mail className="text-primary-400" size={22} /><h1 className="text-xl font-semibold">Email Writer</h1></div>
+      <div className="flex items-center gap-2 mb-6"><Icons.Mail className="text-primary-400" size={22} /><h1 className="text-xl font-semibold">Email Writer</h1></div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="card space-y-4">
             <input className="input" placeholder="To: recipient@email.com" value={to} onChange={e => setTo(e.target.value)} />
             <input className="input" placeholder="Subject line" value={subject} onChange={e => setSubject(e.target.value)} />
             <textarea className="input min-h-[300px] resize-none" placeholder="Write your email here..." value={body} onChange={e => setBody(e.target.value)} />
-            <div className="flex justify-end"><button className="btn-primary flex items-center gap-2"><Send size={16} /> Send</button></div>
+            <div className="flex justify-end"><button className="btn-primary flex items-center gap-2"><Icons.Send size={16} /> Send</button></div>
           </div>
         </div>
         <div className="space-y-4">
@@ -45,7 +45,7 @@ export default function EmailWriter() {
               <label className="text-xs text-dark-400 block mb-1">Tone</label>
               <div className="flex flex-wrap gap-1">{tones.map(t => (<button key={t} className={`text-xs px-2 py-1 rounded-full border ${tone === t ? 'bg-primary-600 border-primary-500' : 'border-dark-600 text-dark-300'}`} onClick={() => setTone(t)}>{t}</button>))}</div>
             </div>
-            <button className="btn-primary w-full flex items-center justify-center gap-2 text-sm" onClick={generate}><Sparkles size={14} /> Generate</button>
+            <button className="btn-primary w-full flex items-center justify-center gap-2 text-sm" onClick={generate}><Icons.Sparkles size={14} /> Generate</button>
           </div>
           <div className="card">
             <h3 className="font-semibold text-sm mb-2">Templates</h3>

@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { FileText, Upload, Download, Merge, Split, Scissors, FileUp } from 'lucide-react'
+import { Icons } from '../lib/icons'
 
 const tools = [
-  { icon: Merge, label: 'Merge PDF', desc: 'Combine multiple PDFs into one' },
-  { icon: Scissors, label: 'Split PDF', desc: 'Split PDF into separate files' },
-  { icon: FileUp, label: 'Compress PDF', desc: 'Reduce PDF file size' },
-  { icon: FileText, label: 'PDF to Word', desc: 'Convert PDF to editable Word' },
-  { icon: FileText, label: 'Word to PDF', desc: 'Convert Word to PDF' },
-  { icon: Split, label: 'Extract Pages', desc: 'Extract specific pages' },
+  { icon: Icons.Merge, label: 'Merge PDF', desc: 'Combine multiple PDFs into one' },
+  { icon: Icons.Scissors, label: 'Split PDF', desc: 'Split PDF into separate files' },
+  { icon: Icons.FileUp, label: 'Compress PDF', desc: 'Reduce PDF file size' },
+  { icon: Icons.FileText, label: 'PDF to Word', desc: 'Convert PDF to editable Word' },
+  { icon: Icons.FileText, label: 'Word to PDF', desc: 'Convert Word to PDF' },
+  { icon: Icons.Split, label: 'Extract Pages', desc: 'Extract specific pages' },
 ]
 
 export default function PdfTools() {
@@ -16,7 +16,7 @@ export default function PdfTools() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center gap-2 mb-6">
-        <FileText className="text-primary-400" size={22} />
+        <Icons.FileText className="text-primary-400" size={22} />
         <h1 className="text-xl font-semibold">PDF Tools</h1>
       </div>
 
@@ -24,7 +24,7 @@ export default function PdfTools() {
         <div className="border-2 border-dashed border-dark-500 rounded-xl p-8 hover:border-primary-500 transition-colors cursor-pointer"
           onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); setFile(e.dataTransfer.files[0]) }}
           onClick={() => document.getElementById('pdfInput')?.click()}>
-          <Upload size={40} className="mx-auto text-dark-400 mb-3" />
+          <Icons.Upload size={40} className="mx-auto text-dark-400 mb-3" />
           <p className="text-dark-300">Drag & drop your PDF here, or click to browse</p>
           <p className="text-dark-500 text-sm mt-1">Max file size: 100MB</p>
           <input id="pdfInput" type="file" accept=".pdf" className="hidden" onChange={e => setFile(e.target.files?.[0] || null)} />

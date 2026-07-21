@@ -1,27 +1,27 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
-import { Bot, FileText, PenSquare, Image, Table, Code, Globe, Mail, BarChart3, Cloud, Sparkles, MessageSquare, Zap, Shield, TrendingUp } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { useEffect, useState } from 'react'
 import { getRemaining, isLimitReached } from '../lib/usage'
 
 const tools = [
-  { to: '/chat', icon: Bot, label: 'Chat AI', desc: 'Smart AI conversations', color: 'from-blue-500 to-cyan-500', gradient: 'from-blue-600/20 to-cyan-600/20' },
-  { to: '/pdf', icon: FileText, label: 'PDF Tools', desc: 'Merge, split, compress', color: 'from-red-500 to-orange-500', gradient: 'from-red-600/20 to-orange-600/20' },
-  { to: '/documents', icon: PenSquare, label: 'Document Editor', desc: 'Write with AI assistance', color: 'from-purple-500 to-pink-500', gradient: 'from-purple-600/20 to-pink-600/20' },
-  { to: '/image', icon: Image, label: 'Image Generator', desc: 'Create stunning images', color: 'from-green-500 to-emerald-500', gradient: 'from-green-600/20 to-emerald-600/20' },
-  { to: '/excel', icon: Table, label: 'Excel AI', desc: 'Smart spreadsheets', color: 'from-green-600 to-teal-500', gradient: 'from-green-600/20 to-teal-600/20' },
-  { to: '/code', icon: Code, label: 'Code AI', desc: 'Write & debug code', color: 'from-yellow-500 to-orange-500', gradient: 'from-yellow-600/20 to-orange-600/20' },
-  { to: '/website', icon: Globe, label: 'Website Builder', desc: 'Build sites with AI', color: 'from-indigo-500 to-purple-500', gradient: 'from-indigo-600/20 to-purple-600/20' },
-  { to: '/email', icon: Mail, label: 'Email Writer', desc: 'Professional emails', color: 'from-blue-600 to-blue-400', gradient: 'from-blue-600/20 to-blue-400/20' },
-  { to: '/analysis', icon: BarChart3, label: 'Data Analysis', desc: 'Visualize & analyze', color: 'from-rose-500 to-red-500', gradient: 'from-rose-600/20 to-red-600/20' },
-  { to: '/storage', icon: Cloud, label: 'Cloud Storage', desc: 'Store & share files', color: 'from-sky-500 to-blue-500', gradient: 'from-sky-600/20 to-blue-600/20' },
+  { to: '/chat', icon: Icons.Bot, label: 'Chat AI', desc: 'Smart AI conversations', color: 'from-blue-500 to-cyan-500', gradient: 'from-blue-600/20 to-cyan-600/20' },
+  { to: '/pdf', icon: Icons.FileText, label: 'PDF Tools', desc: 'Merge, split, compress', color: 'from-red-500 to-orange-500', gradient: 'from-red-600/20 to-orange-600/20' },
+  { to: '/documents', icon: Icons.PenSquare, label: 'Document Editor', desc: 'Write with AI assistance', color: 'from-purple-500 to-pink-500', gradient: 'from-purple-600/20 to-pink-600/20' },
+  { to: '/image', icon: Icons.Image, label: 'Image Generator', desc: 'Create stunning images', color: 'from-green-500 to-emerald-500', gradient: 'from-green-600/20 to-emerald-600/20' },
+  { to: '/excel', icon: Icons.Table, label: 'Excel AI', desc: 'Smart spreadsheets', color: 'from-green-600 to-teal-500', gradient: 'from-green-600/20 to-teal-600/20' },
+  { to: '/code', icon: Icons.Code, label: 'Code AI', desc: 'Write & debug code', color: 'from-yellow-500 to-orange-500', gradient: 'from-yellow-600/20 to-orange-600/20' },
+  { to: '/website', icon: Icons.Globe, label: 'Website Builder', desc: 'Build sites with AI', color: 'from-indigo-500 to-purple-500', gradient: 'from-indigo-600/20 to-purple-600/20' },
+  { to: '/email', icon: Icons.Mail, label: 'Email Writer', desc: 'Professional emails', color: 'from-blue-600 to-blue-400', gradient: 'from-blue-600/20 to-blue-400/20' },
+  { to: '/analysis', icon: Icons.BarChart3, label: 'Data Analysis', desc: 'Visualize & analyze', color: 'from-rose-500 to-red-500', gradient: 'from-rose-600/20 to-red-600/20' },
+  { to: '/storage', icon: Icons.Cloud, label: 'Cloud Storage', desc: 'Store & share files', color: 'from-sky-500 to-blue-500', gradient: 'from-sky-600/20 to-blue-600/20' },
 ]
 
 const stats = [
-  { icon: MessageSquare, label: 'Daily Requests', value: `${getRemaining()}`, suffix: '/ 50 free', color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  { icon: Zap, label: 'AI Models', value: '16+', suffix: 'free models', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
-  { icon: Shield, label: 'Tier', value: 'Free', suffix: 'no card needed', color: 'text-green-400', bg: 'bg-green-500/10' },
-  { icon: TrendingUp, label: 'Status', value: isLimitReached() ? 'Limit Reached' : 'Active', suffix: isLimitReached() ? 'Upgrade now' : 'All systems go', color: isLimitReached() ? 'text-red-400' : 'text-emerald-400', bg: isLimitReached() ? 'bg-red-500/10' : 'bg-emerald-500/10' },
+  { icon: Icons.MessageSquare, label: 'Daily Requests', value: `${getRemaining()}`, suffix: '/ 50 free', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  { icon: Icons.Zap, label: 'AI Models', value: '16+', suffix: 'free models', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  { icon: Icons.Shield, label: 'Tier', value: 'Free', suffix: 'no card needed', color: 'text-green-400', bg: 'bg-green-500/10' },
+  { icon: Icons.TrendingUp, label: 'Status', value: isLimitReached() ? 'Limit Reached' : 'Active', suffix: isLimitReached() ? 'Upgrade now' : 'All systems go', color: isLimitReached() ? 'text-red-400' : 'text-emerald-400', bg: isLimitReached() ? 'bg-red-500/10' : 'bg-emerald-500/10' },
 ]
 
 export default function Dashboard() {
@@ -43,7 +43,7 @@ export default function Dashboard() {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/30">
-              <Sparkles size={20} className="text-white" />
+              <Icons.Sparkles size={20} className="text-white" />
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold">
               {greeting}, <span className="gradient-text">{user?.displayName || user?.email?.split('@')[0] || 'User'}</span>
@@ -51,8 +51,8 @@ export default function Dashboard() {
           </div>
           <p className="text-dark-300 text-base lg:text-lg max-w-2xl">Your all-in-one AI workspace. Chat, create, code, analyze — all powered by advanced AI models.</p>
           <div className="flex flex-wrap items-center gap-3 mt-4">
-            <span className="badge-primary flex items-center gap-1.5"><Zap size={11} /> Free Tier: {getRemaining()} requests remaining</span>
-            <span className="badge-green flex items-center gap-1.5"><Shield size={11} /> No credit card needed</span>
+            <span className="badge-primary flex items-center gap-1.5"><Icons.Zap size={11} /> Free Tier: {getRemaining()} requests remaining</span>
+            <span className="badge-green flex items-center gap-1.5"><Icons.Shield size={11} /> No credit card needed</span>
             {isLimitReached() && (
               <Link to="/pricing" className="badge-red flex items-center gap-1.5 hover:bg-red-500/20 transition-colors">
                 Limit reached — Upgrade
@@ -61,6 +61,26 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Earn Coins Banner */}
+      <Link to="/earn" className="block group">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/20 p-5 sm:p-6 transition-all duration-300 hover:border-yellow-500/40 hover:shadow-lg hover:shadow-yellow-500/10">
+          <div className="absolute top-0 right-0 w-36 h-36 bg-yellow-500 rounded-full blur-[80px] opacity-10" />
+          <div className="relative z-10 flex items-center gap-4 flex-wrap sm:flex-nowrap">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-yellow-500/20">
+              <Icons.Coins size={24} className="text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-semibold text-yellow-300">Earn Free Coins</h3>
+              <p className="text-sm text-dark-300">Watch short ads to earn coins and unlock more AI requests. No credit card needed.</p>
+            </div>
+            <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg shadow-yellow-600/30 whitespace-nowrap">
+              Start Earning
+              <Icons.ArrowRight size={15} />
+            </span>
+          </div>
+        </div>
+      </Link>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

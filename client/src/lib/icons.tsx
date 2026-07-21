@@ -1,0 +1,87 @@
+import React from 'react'
+
+type Props = { size?: number; className?: string }
+
+const s = (d: string, size = 18, cls = '') => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls}>
+    {d.split('|').map((p, i) => <path key={i} d={p} />)}
+  </svg>
+)
+
+export const Icons = {
+  Menu: ({ size, className }: Props) => s('M3 12h18M3 6h18M3 18h18', size, className),
+  Search: ({ size, className }: Props) => s('M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM21 21l-4.35-4.35', size, className),
+  User: ({ size, className }: Props) => s('M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z', size, className),
+  LogOut: ({ size, className }: Props) => s('M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9', size, className),
+  ChevronDown: ({ size, className }: Props) => s('M6 9l6 6 6-6', size, className),
+  ChevronLeft: ({ size, className }: Props) => s('M15 18l-6-6 6-6', size, className),
+  ChevronRight: ({ size, className }: Props) => s('M9 18l6-6-6-6', size, className),
+  Info: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM12 16v-4M12 8h.01', size, className),
+  Sparkles: ({ size, className }: Props) => s('M12 3l1.91 5.09L19 10l-5.09 1.91L12 17l-1.91-5.09L5 10l5.09-1.91zM8 2l.54 1.46L10 4l-1.46.54L8 6l-.54-1.46L6 4l1.46-.54zM18 8l.54 1.46L20 10l-1.46.54L18 12l-.54-1.46L16 10l1.46-.54z', size, className),
+  Bot: ({ size, className }: Props) => s('M12 2a4 4 0 0 0-4 4v2H6a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3h-2V6a4 4 0 0 0-4-4zM8 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm8 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-8 4c1.5 1.5 4.5 1.5 6 0', size, className),
+  FileText: ({ size, className }: Props) => s('M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6M16 13H8M16 17H8M10 9H8', size, className),
+  PenSquare: ({ size, className }: Props) => s('M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z', size, className),
+  Table: ({ size, className }: Props) => s('M3 3h18v18H3V3zm0 7h18M3 12h18M3 16h18M9 3v18', size, className),
+  Code: ({ size, className }: Props) => s('M16 18l6-6-6-6M8 6l-6 6 6 6', size, className),
+  Globe: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z', size, className),
+  Mail: ({ size, className }: Props) => s('M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2l8 5 8-5', size, className),
+  BarChart3: ({ size, className }: Props) => s('M3 20h18M3 17l4-8 4 4 4-7 4 5', size, className),
+  Cloud: ({ size, className }: Props) => s('M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z', size, className),
+  LayoutDashboard: ({ size, className }: Props) => s('M3 9h6V3H3v6zm0 12h6v-6H3v6zm12 0h6v-6h-6v6zm0-18v6h6V3h-6z', size, className),
+  X: ({ size, className }: Props) => s('M18 6L6 18M6 6l12 12', size, className),
+  Coins: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm8 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-4 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4z', size, className),
+  Send: ({ size, className }: Props) => s('M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z', size, className),
+  Loader2: ({ size, className }: Props) => s('M21 12a9 9 0 1 1-6.219-8.56', size, className),
+  Plus: ({ size, className }: Props) => s('M12 5v14M5 12h14', size, className),
+  AlertTriangle: ({ size, className }: Props) => s('M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01', size, className),
+  Clock: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z', size, className),
+  Trash2: ({ size, className }: Props) => s('M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6', size, className),
+  MessageSquare: ({ size, className }: Props) => s('M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z', size, className),
+  PanelLeftClose: ({ size, className }: Props) => s('M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M9 3v18M9 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H9M13 10l-3 2 3 2', size, className),
+  PanelLeft: ({ size, className }: Props) => s('M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M9 3v18M9 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H9', size, className),
+  Upload: ({ size, className }: Props) => s('M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12', size, className),
+  File: ({ size, className }: Props) => s('M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6', size, className),
+  Folder: ({ size, className }: Props) => s('M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z', size, className),
+  Download: ({ size, className }: Props) => s('M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3', size, className),
+  Share2: ({ size, className }: Props) => s('M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13', size, className),
+  Play: ({ size, className }: Props) => s('M5 3l14 9-14 9V3z', size, className),
+  Copy: ({ size, className }: Props) => s('M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M8 4V2h8v2M8 4h8', size, className),
+  Check: ({ size, className }: Props) => s('M20 6L9 17l-5-5', size, className),
+  Zap: ({ size, className }: Props) => s('M13 2L3 14h9l-1 8 10-12h-9l1-8z', size, className),
+  Shield: ({ size, className }: Props) => s('M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', size, className),
+  TrendingUp: ({ size, className }: Props) => s('M23 6l-9.5 9.5-5-5L1 18M17 6h6v6', size, className),
+  TrendingDown: ({ size, className }: Props) => s('M23 18l-9.5-9.5-5 5L1 6M17 18h6v-6', size, className),
+  Bold: ({ size, className }: Props) => s('M6 4h6a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6V4zm0 8h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6v-8z', size, className),
+  Italic: ({ size, className }: Props) => s('M19 4h-9M14 20H5M15 4L9 20', size, className),
+  Underline: ({ size, className }: Props) => s('M6 4v6a6 6 0 0 0 12 0V4M4 20h16', size, className),
+  AlignLeft: ({ size, className }: Props) => s('M17 10H3M21 6H3M21 14H3M17 18H3', size, className),
+  AlignCenter: ({ size, className }: Props) => s('M21 6H3M17 10H7M17 14H7M21 18H3', size, className),
+  AlignRight: ({ size, className }: Props) => s('M7 10h14M3 6h18M3 14h18M7 18h14', size, className),
+  List: ({ size, className }: Props) => s('M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01', size, className),
+  Image: ({ size, className }: Props) => s('M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3', size, className),
+  Save: ({ size, className }: Props) => s('M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8', size, className),
+  Eye: ({ size, className }: Props) => s('M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z', size, className),
+  EyeOff: ({ size, className }: Props) => s('M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24M1 1l22 22', size, className),
+  Timer: ({ size, className }: Props) => s('M12 8v4l2 2M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM12 6v2', size, className),
+  RefreshCw: ({ size, className }: Props) => s('M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15', size, className),
+  CheckCircle: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z', size, className),
+  XCircle: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z', size, className),
+  ExternalLink: ({ size, className }: Props) => s('M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3', size, className),
+  Lock: ({ size, className }: Props) => s('M12 2a5 5 0 0 0-5 5v3H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2V7a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3v3H9V7a3 3 0 0 1 3-3zm-1 9v4h2v-4h-2z', size, className),
+  AlertCircle: ({ size, className }: Props) => s('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM12 16v-4M12 8h.01', size, className),
+  Star: ({ size, className }: Props) => s('M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', size, className),
+  Quote: ({ size, className }: Props) => s('M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zm12 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z', size, className),
+  Crown: ({ size, className }: Props) => s('M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14', size, className),
+  ArrowRight: ({ size, className }: Props) => s('M5 12h14M12 5l7 7-7 7', size, className),
+  Monitor: ({ size, className }: Props) => s('M20 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6l-2 3h8l-2-3h6a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z', size, className),
+  Merge: ({ size, className }: Props) => s('M8 6h8M12 6v12M8 18h8M6 12l-4 4M6 12l-4-4M18 12l4 4M18 12l4-4', size, className),
+  Split: ({ size, className }: Props) => s('M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4', size, className),
+  Scissors: ({ size, className }: Props) => s('M6 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm12 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM8 12l8-8M8 12l8 8M6 20a2 2 0 1 1 0-4 2 2 0 0 1 0 4z', size, className),
+  FileUp: ({ size, className }: Props) => s('M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6M12 12v6M15 15l-3-3-3 3', size, className),
+  FolderOpen: ({ size, className }: Props) => s('M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v1M6 16l-2-4h16l-2 4z', size, className),
+  Github: ({ size, className }: Props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size || 18} height={size || 18} viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+    </svg>
+  ),
+}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Check, Sparkles, ArrowRight, Zap, Shield, Star, Crown } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { getRemaining } from '../lib/usage'
 
 const plans = [
@@ -9,7 +9,7 @@ const plans = [
     currency: 'BDT',
     period: '',
     popular: false,
-    icon: Zap,
+    icon: Icons.Zap,
     iconColor: 'from-yellow-400 to-yellow-500',
     features: ['50 AI chat messages/day', '5 PDF conversions/month', 'Basic document editor', '1GB cloud storage', 'Standard support'],
     bKash: false,
@@ -20,7 +20,7 @@ const plans = [
     currency: 'BDT',
     period: '/mo',
     popular: true,
-    icon: Star,
+    icon: Icons.Star,
     iconColor: 'from-primary-400 to-purple-500',
     features: ['Unlimited AI chat', 'Unlimited PDF tools', 'Full document editor', '50GB cloud storage', 'AI image generation', 'Code AI & analysis', 'Priority support'],
     bKash: true,
@@ -32,7 +32,7 @@ const plans = [
     currency: 'BDT',
     period: '/yr',
     popular: false,
-    icon: Shield,
+    icon: Icons.Shield,
     iconColor: 'from-green-400 to-emerald-500',
     features: ['Everything in Pro Monthly', '100GB cloud storage', 'Early access to new features', 'API access', 'Dedicated support'],
     bKash: true,
@@ -44,7 +44,7 @@ const plans = [
     currency: '',
     period: '',
     popular: false,
-    icon: Crown,
+    icon: Icons.Crown,
     iconColor: 'from-orange-400 to-red-500',
     features: ['Everything in Pro Yearly', 'Unlimited storage', 'Custom AI models', 'Team management', 'SLA guarantee', '24/7 phone support', 'Custom integrations'],
     bKash: false,
@@ -63,7 +63,7 @@ export default function Pricing() {
           <p className="text-dark-400 text-lg max-w-xl mx-auto">Choose the plan that fits your needs. Pay with card, bKash, or Nagad.</p>
           {getRemaining() < 50 && (
             <div className="mt-4 inline-flex items-center gap-2 bg-primary-500/10 border border-primary-500/20 rounded-xl px-4 py-2 text-sm text-primary-400">
-              <Zap size={14} />
+              <Icons.Zap size={14} />
               You have <strong>{getRemaining()}</strong> free requests remaining today
             </div>
           )}
@@ -80,7 +80,7 @@ export default function Pricing() {
               {/* Popular badge */}
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary-600 to-purple-600 text-xs font-semibold px-4 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg shadow-primary-600/30 whitespace-nowrap">
-                  <Sparkles size={12} /> Most Popular
+                  <Icons.Sparkles size={12} /> Most Popular
                 </div>
               )}
 
@@ -101,7 +101,7 @@ export default function Pricing() {
               <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((f, j) => (
                   <li key={j} className="flex items-start gap-2.5 text-sm text-dark-200">
-                    <Check size={15} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-primary-400' : 'text-green-400'}`} />
+                    <Icons.Check size={15} className={`mt-0.5 flex-shrink-0 ${plan.popular ? 'text-primary-400' : 'text-green-400'}`} />
                     {f}
                   </li>
                 ))}
@@ -117,7 +117,7 @@ export default function Pricing() {
                     : 'btn-secondary'
                 }`}>
                   {plan.price === 'Custom' ? 'Contact Sales' : 'Get Started'}
-                  <ArrowRight size={15} />
+                  <Icons.ArrowRight size={15} />
                 </button>
 
                 {plan.bKash && (
@@ -140,12 +140,12 @@ export default function Pricing() {
         {/* Footer */}
         <div className="text-center mt-12">
           <div className="inline-flex items-center gap-2 text-dark-400 text-sm bg-dark-800/50 border border-dark-700/50 rounded-xl px-5 py-3">
-            <Shield size={14} />
+            <Icons.Shield size={14} />
             All plans include SSL encryption &bull; 30-day money-back guarantee
           </div>
           <div className="mt-4">
             <Link to="/" className="text-sm text-dark-400 hover:text-dark-200 transition-colors inline-flex items-center gap-1">
-              <ArrowRight size={12} className="rotate-180" />
+              <Icons.ArrowRight size={12} className="rotate-180" />
               Back to Dashboard
             </Link>
           </div>

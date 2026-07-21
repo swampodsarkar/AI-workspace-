@@ -1,21 +1,20 @@
 import { NavLink } from 'react-router-dom'
-import { Bot, FileText, PenSquare, Image as ImageIcon, Table, Code, Globe, Mail, BarChart3, Cloud, LayoutDashboard, X, Sparkles, Coins } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { getRemaining, isLimitReached } from '../lib/usage'
 import { getCoinBalance } from '../lib/coins'
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/chat', icon: Bot, label: 'Chat AI' },
-  { to: '/earn', icon: Coins, label: 'Earn Coins' },
-  { to: '/pdf', icon: FileText, label: 'PDF Tools' },
-  { to: '/documents', icon: PenSquare, label: 'Document Editor' },
-  { to: '/image', icon: ImageIcon, label: 'Image Generator' },
-  { to: '/excel', icon: Table, label: 'Excel AI' },
-  { to: '/code', icon: Code, label: 'Code AI' },
-  { to: '/website', icon: Globe, label: 'Website Builder' },
-  { to: '/email', icon: Mail, label: 'Email Writer' },
-  { to: '/analysis', icon: BarChart3, label: 'Data Analysis' },
-  { to: '/storage', icon: Cloud, label: 'Cloud Storage' },
+  { to: '/', icon: Icons.LayoutDashboard, label: 'Dashboard', end: true },
+  { to: '/chat', icon: Icons.Bot, label: 'Chat AI' },
+  { to: '/pdf', icon: Icons.FileText, label: 'PDF Tools' },
+  { to: '/documents', icon: Icons.PenSquare, label: 'Document Editor' },
+  { to: '/image', icon: Icons.Image, label: 'Image Generator' },
+  { to: '/excel', icon: Icons.Table, label: 'Excel AI' },
+  { to: '/code', icon: Icons.Code, label: 'Code AI' },
+  { to: '/website', icon: Icons.Globe, label: 'Website Builder' },
+  { to: '/email', icon: Icons.Mail, label: 'Email Writer' },
+  { to: '/analysis', icon: Icons.BarChart3, label: 'Data Analysis' },
+  { to: '/storage', icon: Icons.Cloud, label: 'Cloud Storage' },
 ]
 
 interface SidebarProps { mobileOpen?: boolean; onClose?: () => void }
@@ -33,7 +32,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       <div className="p-5 border-b border-dark-700/60">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
-            <Sparkles size={16} className="text-white" />
+            <Icons.Sparkles size={16} className="text-white" />
           </div>
           <div>
             <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Bit-Byte</h1>
@@ -54,7 +53,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       <div className="p-3 border-t border-dark-700/60">
         <div className="bg-dark-800/60 border border-dark-700/50 rounded-xl p-3.5">
           <div className="flex items-center gap-2 mb-1.5">
-            <Sparkles size={12} className="text-yellow-400" />
+            <Icons.Sparkles size={12} className="text-yellow-400" />
             <span className="text-xs font-semibold text-yellow-400">Free Tier</span>
           </div>
           <div className="space-y-1.5">
@@ -71,7 +70,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               />
             </div>
             <div className="flex items-center justify-between text-xs pt-1.5 border-t border-dark-700/40 mt-1.5">
-              <span className="text-dark-400 flex items-center gap-1"><Coins size={10} /> Coins</span>
+              <span className="text-dark-400 flex items-center gap-1"><Icons.Coins size={10} /> Coins</span>
               <span className="font-semibold text-yellow-400">{getCoinBalance()}</span>
             </div>
             <NavLink to="/earn" onClick={onClose} className="mt-1.5 block text-center text-[10px] text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-lg py-1.5 transition-colors font-medium">
@@ -101,12 +100,12 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             <div className="flex items-center justify-between p-3 pr-4 border-b border-dark-700/60">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
-                  <Sparkles size={16} className="text-white" />
+                  <Icons.Sparkles size={16} className="text-white" />
                 </div>
                 <h1 className="text-base font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Bit-Byte</h1>
               </div>
               <button onClick={onClose} className="text-dark-400 hover:text-white p-1.5 rounded-lg hover:bg-dark-700 transition-colors">
-                <X size={18} />
+                <Icons.X size={18} />
               </button>
             </div>
             <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
@@ -126,7 +125,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             <div className="p-3 border-t border-dark-700/60">
               <div className="bg-dark-800/60 border border-dark-700/50 rounded-xl p-3.5">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <Sparkles size={12} className="text-yellow-400" />
+                  <Icons.Sparkles size={12} className="text-yellow-400" />
                   <span className="text-xs font-semibold text-yellow-400">Free Tier</span>
                 </div>
                 <div className="space-y-1.5">
@@ -139,7 +138,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                       style={{ width: `${(getRemaining() / 50) * 100}%` }} />
                   </div>
                   <div className="flex items-center justify-between text-xs pt-1.5 border-t border-dark-700/40 mt-1.5">
-                    <span className="text-dark-400 flex items-center gap-1"><Coins size={10} /> Coins</span>
+                    <span className="text-dark-400 flex items-center gap-1"><Icons.Coins size={10} /> Coins</span>
                     <span className="font-semibold text-yellow-400">{getCoinBalance()}</span>
                   </div>
                   <NavLink to="/earn" onClick={onClose} className="mt-1.5 block text-center text-[10px] text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-lg py-1.5 transition-colors font-medium">

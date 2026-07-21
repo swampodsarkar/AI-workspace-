@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Sparkles, Mail, Lock, User as UserIcon, Eye, EyeOff, Github, AlertCircle, Zap, Shield, TrendingUp } from 'lucide-react'
+import { Icons } from '../lib/icons'
 import { useAuth } from '../lib/AuthContext'
 
 export default function Signup() {
@@ -44,9 +44,9 @@ export default function Signup() {
   }
 
   const benefits = [
-    { icon: Zap, label: '50 Free Daily Requests', desc: 'Chat, code, create images' },
-    { icon: Shield, label: 'No Credit Card', desc: 'Start free, upgrade anytime' },
-    { icon: TrendingUp, label: 'Premium Features', desc: 'From just 499 BDT/month' },
+    { icon: Icons.Zap, label: '50 Free Daily Requests', desc: 'Chat, code, create images' },
+    { icon: Icons.Shield, label: 'No Credit Card', desc: 'Start free, upgrade anytime' },
+    { icon: Icons.TrendingUp, label: 'Premium Features', desc: 'From just 499 BDT/month' },
   ]
 
   return (
@@ -74,7 +74,7 @@ export default function Signup() {
             <div className="flex items-center gap-3 mb-12 group">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 via-purple-500 to-cyan-500 p-[2px] shadow-2xl shadow-primary-500/30 group-hover:shadow-primary-500/50 transition-shadow duration-500">
                 <div className="w-full h-full rounded-2xl bg-dark-900 flex items-center justify-center">
-                  <Sparkles size={26} className="text-white" />
+                  <Icons.Sparkles size={26} className="text-white" />
                 </div>
               </div>
               <div>
@@ -131,7 +131,7 @@ export default function Signup() {
             <div className="text-center mb-8 lg:hidden">
               <div className="inline-flex items-center gap-2.5 mb-1">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center shadow-2xl">
-                  <Sparkles size={20} className="text-white" />
+                  <Icons.Sparkles size={20} className="text-white" />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-primary-300 to-purple-300 bg-clip-text text-transparent">Bit-Byte</span>
               </div>
@@ -150,7 +150,7 @@ export default function Signup() {
               <form onSubmit={handleSignup} className="space-y-4">
                 {error && (
                   <div className="flex items-start gap-2.5 bg-red-500/10 border border-red-500/20 rounded-xl p-3.5 text-sm text-red-400 animate-fade-in">
-                    <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
+                    <Icons.AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
                 )}
@@ -159,7 +159,7 @@ export default function Signup() {
                   <label className="text-sm text-dark-300 block mb-1.5 font-medium">Username</label>
                   <div className="relative group">
                     <div className="absolute -inset-[1px] bg-gradient-to-r from-primary-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
-                    <UserIcon size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
+                    <Icons.User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
                     <input className="input pl-10 relative z-10 bg-dark-800/80" placeholder="john_doe" value={username} onChange={e => setUsername(e.target.value)} autoFocus />
                   </div>
                 </div>
@@ -168,7 +168,7 @@ export default function Signup() {
                   <label className="text-sm text-dark-300 block mb-1.5 font-medium">Email</label>
                   <div className="relative group">
                     <div className="absolute -inset-[1px] bg-gradient-to-r from-primary-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
-                    <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
+                    <Icons.Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
                     <input className="input pl-10 relative z-10 bg-dark-800/80" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} />
                   </div>
                 </div>
@@ -177,10 +177,10 @@ export default function Signup() {
                   <label className="text-sm text-dark-300 block mb-1.5 font-medium">Password</label>
                   <div className="relative group">
                     <div className="absolute -inset-[1px] bg-gradient-to-r from-primary-500/20 via-purple-500/20 to-cyan-500/20 rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
-                    <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
+                    <Icons.Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dark-400 group-focus-within:text-primary-400 transition-colors z-10" />
                     <input className="input pl-10 pr-10 relative z-10 bg-dark-800/80" type={showPw ? 'text' : 'password'} placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} />
                     <button type="button" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-white transition-colors z-10" onClick={() => setShowPw(!showPw)}>
-                      {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
+                      {showPw ? <Icons.EyeOff size={15} /> : <Icons.Eye size={15} />}
                     </button>
                   </div>
                 </div>
@@ -201,7 +201,7 @@ export default function Signup() {
               </div>
 
               <button onClick={handleGithub} disabled={loading} className="w-full border border-white/[0.08] hover:border-white/[0.15] rounded-xl py-3 flex items-center justify-center gap-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/[0.03] group">
-                <Github size={18} className="group-hover:scale-110 transition-transform" />
+                <Icons.Github size={18} className="group-hover:scale-110 transition-transform" />
                 Continue with GitHub
               </button>
 
