@@ -5,7 +5,6 @@ import { getCoinBalance } from '../lib/coins'
 
 const navItems = [
   { to: '/', icon: Icons.LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/chat', icon: Icons.Bot, label: 'Chat AI' },
   { to: '/pdf', icon: Icons.FileText, label: 'PDF Tools' },
   { to: '/documents', icon: Icons.PenSquare, label: 'Document Editor' },
   { to: '/image', icon: Icons.Image, label: 'Image Generator' },

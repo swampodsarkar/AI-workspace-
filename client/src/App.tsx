@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './lib/AuthContext'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
-import ChatAI from './pages/ChatAI'
 import PdfTools from './pages/PdfTools'
 import DocumentEditor from './pages/DocumentEditor'
 import ImageGenerator from './pages/ImageGenerator'
@@ -42,7 +41,6 @@ export default function App() {
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
-        <Route path="chat" element={<ChatAI />} />
         <Route path="pdf" element={<PdfTools />} />
         <Route path="documents" element={<DocumentEditor />} />
         <Route path="image" element={<ImageGenerator />} />

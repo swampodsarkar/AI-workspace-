@@ -3,57 +3,79 @@ import { Icons } from '../lib/icons'
 import { Link } from 'react-router-dom'
 import { openRouterChat } from '../lib/openrouter'
 import { isLimitReached, getRemaining, deductCredits } from '../lib/usage'
+import { getToolConfig } from '../lib/autoModel'
 
 const styles = ['Realistic', 'Anime', 'Oil Painting', '3D Render', 'Watercolor', 'Pixel Art', 'Sketch', 'Cyberpunk']
-const COST = 4
 
 export default function ImageGenerator() {
+  const cfg = getToolConfig('image')
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState('')
   const [style, setStyle] = useState('Realistic')
   const [remaining, setRemaining] = useState(getRemaining())
+  const [copied, setCopied] = useState(false)
 
   const generate = async () => {
     if (!prompt.trim() || loading) return
-    if (remaining < COST) return
+    if (isLimitReached()) return
     setLoading(true)
-    const result = deductCredits(COST)
+    const result = deductCredits(cfg.credits)
     if (!result.allowed) { setLoading(false); return }
     setRemaining(result.remaining)
     try {
       const data = await openRouterChat([
-        { role: 'system', content: 'Generate a detailed image prompt from the user request. Return ONLY the prompt text.' },
+        { role: 'system', content: cfg.systemPrompt },
         { role: 'user', content: `${prompt}, ${style} style` }
-      ])
+      ], cfg.model)
       const imgPrompt = data.choices?.[0]?.message?.content || prompt
       setImage(`https://image.pollinations.ai/prompt/${encodeURIComponent(imgPrompt)}`)
     } catch { /* ignore */ }
     setLoading(false)
   }
 
+  const handleCopy = async () => {
+    if (!image) return
+    try {
+      await navigator.clipboard.writeText(image)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch { /* ignore */ }
+  }
+
+  const handleDownload = () => {
+    if (!image) return
+    const a = document.createElement('a')
+    a.href = image
+    a.download = `generated-${Date.now()}.png`
+    a.click()
+  }
+
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in">
+    <div className="max-w-6xl mx-auto animate-fade-in">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/20">
             <Icons.Image size={18} className="text-white" />
           </div>
           <h1 className="text-lg font-semibold">Image Generator</h1>
-          <span className={`badge flex items-center gap-1 ${remaining < COST ? 'badge-red' : 'badge-green'}`}>
+          <span className="badge badge-green flex items-center gap-1">
+            <Icons.Sparkles size={10} /> {cfg.label}
+          </span>
+          <span className={`badge flex items-center gap-1 ${remaining < cfg.credits ? 'badge-red' : 'badge-green'}`}>
             <Icons.Info size={10} /> {remaining}/{50}
           </span>
         </div>
         <div className="flex items-center gap-1 text-xs text-dark-500 bg-dark-800/50 border border-dark-700/40 rounded-lg px-3 py-1.5">
           <Icons.Sparkles size={11} className="text-yellow-400" />
-          1 image = {COST} credits
+          1 image = {cfg.credits} credits
         </div>
       </div>
 
-      {remaining < COST && remaining > 0 && (
+      {remaining < cfg.credits && remaining > 0 && (
         <div className="flex items-center gap-2 text-sm bg-yellow-500/10 border border-yellow-500/20 rounded-xl px-4 py-2.5 mb-4 text-yellow-400">
           <Icons.AlertTriangle size={15} />
-          Not enough credits (need {COST}, have {remaining}). <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade</Link>
+          Not enough credits (need {cfg.credits}, have {remaining}). <Link to="/pricing" className="underline font-semibold ml-auto">Upgrade</Link>
         </div>
       )}
       {isLimitReached() && (
@@ -67,17 +89,32 @@ export default function ImageGenerator() {
         <div className="lg:col-span-2">
           <div className="card">
             <div className="aspect-square rounded-xl bg-dark-700/80 flex items-center justify-center mb-4 overflow-hidden border border-dark-700/50">
-              {image ? (
+              {loading ? (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-10 h-10 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                  <p className="text-sm text-dark-400">Generating...</p>
+                </div>
+              ) : image ? (
                 <img src={image} alt="Generated" className="w-full h-full object-cover" />
               ) : (
                 <div className="text-center text-dark-500 p-8">
                   <Icons.Image size={48} className="mx-auto mb-3 opacity-50" />
                   <p className="text-sm">Your generated image will appear here</p>
-                  <p className="text-xs text-dark-600 mt-1">Each generation costs {COST} credits</p>
+                  <p className="text-xs text-dark-600 mt-1">Each generation costs {cfg.credits} credits</p>
                 </div>
               )}
             </div>
-            {image && <button className="btn-secondary w-full flex items-center justify-center gap-2"><Icons.Download size={16} /> Download</button>}
+            {image && (
+              <div className="flex gap-2">
+                <button className="btn-secondary flex-1 flex items-center justify-center gap-2" onClick={handleDownload}>
+                  <Icons.Download size={16} /> Download
+                </button>
+                <button className="btn-secondary flex items-center justify-center gap-2 px-4" onClick={handleCopy}>
+                  {copied ? <Icons.Check size={16} className="text-green-400" /> : <Icons.Copy size={16} />}
+                  {copied ? 'Copied' : 'Copy URL'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div>
@@ -94,9 +131,9 @@ export default function ImageGenerator() {
                 ))}
               </div>
             </div>
-            <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={generate} disabled={loading || !prompt.trim() || remaining < COST}>
+            <button className="btn-primary w-full flex items-center justify-center gap-2" onClick={generate} disabled={loading || !prompt.trim() || isLimitReached()}>
               {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Icons.Sparkles size={16} />}
-              {loading ? 'Generating...' : `Generate (${COST} credits)`}
+              {loading ? 'Generating...' : `Generate (${cfg.credits} credits)`}
             </button>
             <p className="text-[11px] text-dark-500 text-center">You have <strong className="text-dark-400">{remaining}</strong> credits remaining</p>
           </div>
