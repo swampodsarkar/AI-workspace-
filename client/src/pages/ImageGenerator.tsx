@@ -59,9 +59,6 @@ export default function ImageGenerator() {
             <Icons.Image size={18} className="text-white" />
           </div>
           <h1 className="text-lg font-semibold">Image Generator</h1>
-          <span className="badge badge-green flex items-center gap-1">
-            <Icons.Sparkles size={10} /> {cfg.label}
-          </span>
           <span className={`badge flex items-center gap-1 ${remaining < cfg.credits ? 'badge-red' : 'badge-green'}`}>
             <Icons.Info size={10} /> {remaining}/{50}
           </span>

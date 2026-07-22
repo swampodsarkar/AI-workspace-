@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Icons } from '../lib/icons'
 import { getCoinBalance, canWatchAd, getRemainingAds, watchAd, DAILY_AD_LIMIT_EXPORT, COINS_PER_AD_EXPORT } from '../lib/coins'
@@ -25,25 +25,16 @@ export default function Earn() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const cancelledRef = useRef(false)
 
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
+  const awardCoins = useCallback(() => {
+    const result = watchAd()
+    setBalance(result.total)
+    setRemaining(result.remaining)
+    setStatus('completed')
+    setLoading(false)
+    setTimeout(() => setStatus('idle'), 2500)
   }, [])
 
-  // Visbility change: if user comes back before 30s, cancel reward
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && loading && adTimer > 0) {
-        // User switched back early — cancel
-        cancelAd()
-      }
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-    return () => document.removeEventListener('visibilitychange', handleVisibility)
-  }, [loading, adTimer])
-
-  const cancelAd = () => {
+  const cancelAd = useCallback(() => {
     cancelledRef.current = true
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
@@ -53,7 +44,48 @@ export default function Earn() {
     setLoading(false)
     setStatus('cancelled')
     setTimeout(() => setStatus('idle'), 2000)
-  }
+  }, [])
+
+  // Timer countdown
+  useEffect(() => {
+    if (!loading || adTimer <= 0) return
+    const id = setInterval(() => {
+      setAdTimer(prev => {
+        if (prev <= 1) {
+          clearInterval(id)
+          intervalRef.current = null
+          // Check anti-cheat: user must not be visible on this tab
+          if (!cancelledRef.current && document.visibilityState !== 'visible') {
+            awardCoins()
+          } else {
+            cancelAd()
+          }
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    intervalRef.current = id
+    return () => clearInterval(id)
+  }, [loading, adTimer, awardCoins, cancelAd])
+
+  // Visibility change: if user returns before 30s, cancel
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && loading && adTimer > 0) {
+        cancelAd()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [loading, adTimer, cancelAd])
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [])
 
   const handleWatchAd = () => {
     if (!canWatchAd() || loading) return
@@ -61,35 +93,8 @@ export default function Earn() {
     setLoading(true)
     setAdTimer(30)
     setStatus('watching')
-
-    // Open ad in new tab
     const adUrl = getRandomAd()
     window.open(adUrl, '_blank')
-
-    // Start countdown — only awards if user doesn't switch back
-    intervalRef.current = setInterval(() => {
-      setAdTimer(prev => {
-        if (prev <= 1) {
-          if (intervalRef.current) clearInterval(intervalRef.current)
-          intervalRef.current = null
-
-          // Check if user didn't switch back early
-          if (!cancelledRef.current && document.visibilityState !== 'visible') {
-            const result = watchAd()
-            setBalance(result.total)
-            setRemaining(result.remaining)
-            setStatus('completed')
-            setTimeout(() => setStatus('idle'), 2000)
-          } else {
-            setStatus('cancelled')
-            setTimeout(() => setStatus('idle'), 2000)
-          }
-          setLoading(false)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
   }
 
   const totalEarnedToday = (DAILY_AD_LIMIT_EXPORT - remaining) * COINS_PER_AD_EXPORT

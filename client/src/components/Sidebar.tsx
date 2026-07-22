@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { Icons } from '../lib/icons'
 import { getRemaining, isLimitReached } from '../lib/usage'
 import { getCoinBalance } from '../lib/coins'
@@ -23,6 +24,14 @@ const navItems = [
 interface SidebarProps { mobileOpen?: boolean; onClose?: () => void }
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {
+  const [coinBalance, setCoinBalance] = useState(getCoinBalance())
+
+  useEffect(() => {
+    const handler = () => setCoinBalance(getCoinBalance())
+    window.addEventListener('bitbyte-coins-changed', handler)
+    return () => window.removeEventListener('bitbyte-coins-changed', handler)
+  }, [])
+
   const baseLink = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${
       isActive
@@ -74,7 +83,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             </div>
             <div className="flex items-center justify-between text-xs pt-1.5 border-t border-dark-700/40 mt-1.5">
               <span className="text-dark-400 flex items-center gap-1"><Icons.Coins size={10} /> Coins</span>
-              <span className="font-semibold text-yellow-400">{getCoinBalance()}</span>
+              <span className="font-semibold text-yellow-400">{coinBalance}</span>
             </div>
             <NavLink to="/earn" onClick={onClose} className="mt-1.5 block text-center text-[10px] text-yellow-400 hover:text-yellow-300 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-lg py-1.5 transition-colors font-medium">
               + Earn Free Coins

@@ -48,8 +48,8 @@ export default function EmailWriter() {
         <div className="flex items-center gap-2">
           <Icons.Mail className="text-primary-400" size={22} />
           <h1 className="text-xl font-semibold">Email Writer</h1>
-          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary-500/10 text-primary-400 border border-primary-500/20 ml-1">{cfg.label}</span>
         </div>
+        
         <div className="flex items-center gap-2 text-xs text-dark-400">
           <Icons.Zap size={14} />
           <span>{remaining} / 50 remaining</span>

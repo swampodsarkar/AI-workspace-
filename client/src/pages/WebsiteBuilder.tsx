@@ -38,8 +38,8 @@ export default function WebsiteBuilder() {
         <div className="flex items-center gap-2 mb-4">
           <Icons.Globe className="text-primary-400" size={22} />
           <h1 className="text-xl font-semibold">Website Builder</h1>
-          <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-primary-600/15 text-primary-400 border border-primary-500/30">{cfg.label}</span>
         </div>
+        
         <div className="card p-0 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-2 border-b border-dark-700 bg-dark-800/50">
             <div className="flex items-center gap-1">

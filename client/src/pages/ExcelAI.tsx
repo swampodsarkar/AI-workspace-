@@ -114,10 +114,8 @@ export default function ExcelAI() {
             <Icons.Table className="text-primary-400" size={22} />
             <h1 className="text-lg font-semibold text-white">Excel AI</h1>
           </div>
-          <span className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-primary-500/10 text-primary-400 border border-primary-500/20">
-            {cfg.label}
-          </span>
         </div>
+        
         <div className="flex items-center gap-3">
           <span className="text-xs text-dark-400 flex items-center gap-1.5">
             <Icons.Zap size={13} className="text-amber-400" />

@@ -1,8 +1,5 @@
 import { useState } from 'react'
 import { Icons } from '../lib/icons'
-import { getToolConfig } from '../lib/autoModel'
-
-const cfg = getToolConfig('pdf')
 
 const tools = [
   { icon: Icons.Merge, label: 'Merge PDF', desc: 'Combine multiple PDFs into one' },
@@ -28,11 +25,7 @@ export default function PdfTools() {
             <p className="text-sm text-dark-400">Professional document processing suite</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-dark-800/80 border border-dark-700/60 rounded-lg">
-          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-xs text-dark-300 font-medium">{cfg.label}</span>
-          <span className="text-[10px] text-dark-500 bg-dark-700/60 px-1.5 py-0.5 rounded">v2</span>
-        </div>
+        
       </div>
 
       <div className="card mb-6">

@@ -43,8 +43,8 @@ export default function DataAnalysis() {
             <h1 className="text-xl font-semibold">Data Analysis</h1>
             <p className="text-xs text-dark-400">AI-powered business intelligence</p>
           </div>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-primary-500/15 text-primary-400 border border-primary-500/20 ml-2">{cfg.label}</span>
         </div>
+        
         <div className="flex items-center gap-2 text-xs text-dark-400 bg-dark-800 px-3 py-1.5 rounded-full border border-dark-700">
           <Icons.Coins size={12} /> <span>{getRemaining()} / 50 remaining</span>
         </div>

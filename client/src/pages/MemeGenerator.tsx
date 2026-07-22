@@ -51,10 +51,6 @@ export default function MemeGenerator() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-dark-800/80 border border-dark-700/60 rounded-lg">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs text-dark-300 font-medium">{cfg.label}</span>
-            </div>
             <span className={`badge flex items-center gap-1 ${remaining <= 0 ? 'badge-red' : 'badge-green'}`}>
               <Icons.Zap size={10} /> {remaining}/{50}
             </span>

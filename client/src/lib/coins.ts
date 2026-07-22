@@ -5,6 +5,12 @@ const SPIN_KEY = 'bitbyte-spin'
 const REFERRAL_KEY = 'bitbyte-referral'
 const REFERRAL_CODE_KEY = 'bitbyte-ref-code'
 
+const COINS_EVENT = 'bitbyte-coins-changed'
+
+export function notifyCoinsChanged() {
+  window.dispatchEvent(new CustomEvent(COINS_EVENT))
+}
+
 export function getCoinBalance(): number {
   try { return parseInt(localStorage.getItem(COINS_KEY) || '0', 10) } catch { return 0 }
 }
@@ -12,6 +18,7 @@ export function getCoinBalance(): number {
 export function addCoins(amount: number): number {
   const total = getCoinBalance() + amount
   localStorage.setItem(COINS_KEY, String(total))
+  notifyCoinsChanged()
   return total
 }
 
@@ -19,6 +26,7 @@ export function spendCoins(amount: number): boolean {
   const current = getCoinBalance()
   if (current < amount) return false
   localStorage.setItem(COINS_KEY, String(current - amount))
+  notifyCoinsChanged()
   return true
 }
 
@@ -44,7 +52,7 @@ export function watchAd(): { earned: number; total: number; remaining: number } 
   if (getAdsWatchedToday() >= DAILY_AD_LIMIT) return { earned: 0, total: getCoinBalance(), remaining: 0 }
   localStorage.setItem(ADS_KEY, JSON.stringify({ date: today(), count: getAdsWatchedToday() + 1 }))
   const total = addCoins(COINS_PER_AD)
-  return { earned: COINS_PER_AD, total, remaining: DAILY_AD_LIMIT - getAdsWatchedToday() - 1 }
+  return { earned: COINS_PER_AD, total, remaining: DAILY_AD_LIMIT - getAdsWatchedToday() }
 }
 export const DAILY_AD_LIMIT_EXPORT = DAILY_AD_LIMIT
 export const COINS_PER_AD_EXPORT = COINS_PER_AD
