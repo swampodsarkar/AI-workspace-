@@ -18,9 +18,9 @@ export default function WebsiteBuilder() {
 
   const generate = async () => {
     if (!prompt.trim() || loading || isLimitReached()) return
-    const { allowed } = deductCredits(cfg.credits)
-    if (!allowed) return
-    setRemaining(getRemaining())
+    const deduction = deductCredits(cfg.credits)
+    if (!deduction.allowed) return
+    setRemaining(deduction.remaining)
     setLoading(true)
     try {
       const data = await openRouterChat([

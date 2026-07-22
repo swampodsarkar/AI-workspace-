@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Icons } from '../lib/icons'
 import { getToolConfig } from '../lib/autoModel'
 import { openRouterChat } from '../lib/openrouter'
-import { getRemaining, isLimitReached } from '../lib/usage'
+import { getRemaining, isLimitReached, deductCredits } from '../lib/usage'
 
 const cfg = getToolConfig('meme')
 
@@ -19,6 +19,8 @@ export default function MemeGenerator() {
   const generate = async () => {
     if (!topic.trim() || loading) return
     if (isLimitReached()) return
+    const deduction = deductCredits(cfg.credits)
+    if (!deduction.allowed) return
     setLoading(true)
     try {
       const data = await openRouterChat([
