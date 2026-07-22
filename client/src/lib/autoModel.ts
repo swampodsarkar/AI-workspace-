@@ -15,16 +15,16 @@ const tools: Record<string, ToolConfig> = {
     credits: 2
   },
   'email': {
-    model: 'google/gemini-2.0-flash-exp:free',
+    model: 'qwen/qwen2.5-72b-instruct:free',
     systemPrompt: 'You are a professional email writer. Write clear, effective emails. Return JSON with "subject" and "body" fields.',
-    label: 'Gemini Flash',
+    label: 'Qwen 2.5',
     icon: 'Mail',
     credits: 1
   },
   'document': {
-    model: 'google/gemini-2.0-flash-exp:free',
+    model: 'qwen/qwen2.5-72b-instruct:free',
     systemPrompt: 'You are a professional document editor. Write and improve documents with clear structure and formatting.',
-    label: 'Gemini Flash',
+    label: 'Qwen 2.5',
     icon: 'PenSquare',
     credits: 1
   },
@@ -36,9 +36,9 @@ const tools: Record<string, ToolConfig> = {
     credits: 1
   },
   'image': {
-    model: 'google/gemini-2.0-flash-exp:free',
-    systemPrompt: 'Generate a detailed image prompt from the user request. Return ONLY the prompt text, no explanations.',
-    label: 'Gemini Flash',
+    model: 'qwen/qwen2.5-72b-instruct:free',
+    systemPrompt: 'You are an expert image prompt engineer. Generate a highly detailed, creative image prompt from the user request. Include lighting, composition, color palette, mood, and style. Return ONLY the prompt text, no explanations.',
+    label: 'Qwen 2.5',
     icon: 'Image',
     credits: 4
   },
@@ -64,9 +64,9 @@ const tools: Record<string, ToolConfig> = {
     credits: 2
   },
   'pdf': {
-    model: 'google/gemini-2.0-flash-exp:free',
+    model: 'qwen/qwen2.5-72b-instruct:free',
     systemPrompt: 'You are a PDF document expert. Help users with PDF-related tasks and document processing.',
-    label: 'Gemini Flash',
+    label: 'Qwen 2.5',
     icon: 'FileText',
     credits: 1
   },
