@@ -15,6 +15,10 @@ const navItems = [
   { to: '/email', icon: Icons.Mail, label: 'Email Writer' },
   { to: '/analysis', icon: Icons.BarChart3, label: 'Data Analysis' },
   { to: '/storage', icon: Icons.Cloud, label: 'Cloud Storage' },
+  { to: '/earn', icon: Icons.Coins, label: 'Earn Coins' },
+  { to: '/spin', icon: Icons.RefreshCw, label: 'Lucky Spin' },
+  { to: '/meme', icon: Icons.Image, label: 'Meme Generator' },
+  { to: '/referral', icon: Icons.Share2, label: 'Referral' },
 ]
 
 interface SidebarProps { mobileOpen?: boolean; onClose?: () => void }

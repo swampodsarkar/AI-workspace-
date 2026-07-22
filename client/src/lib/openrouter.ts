@@ -1,4 +1,5 @@
 import { isLimitReached, incrementUsage } from './usage'
+import { trackUsage } from './coins'
 
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || ''
 export const BASE = 'https://openrouter.ai/api/v1'
@@ -68,6 +69,7 @@ export async function openRouterChat(
 
   const data = await res.json()
   incrementUsage()
+  trackUsage()
   return data
 }
 

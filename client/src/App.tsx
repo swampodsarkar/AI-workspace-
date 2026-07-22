@@ -13,6 +13,9 @@ import EmailWriter from './pages/EmailWriter'
 import DataAnalysis from './pages/DataAnalysis'
 import CloudStorage from './pages/CloudStorage'
 import Earn from './pages/Earn'
+import Spin from './pages/Spin'
+import MemeGenerator from './pages/MemeGenerator'
+import Referral from './pages/Referral'
 import Pricing from './pages/Pricing'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -50,6 +53,9 @@ export default function App() {
         <Route path="analysis" element={<DataAnalysis />} />
         <Route path="storage" element={<CloudStorage />} />
         <Route path="earn" element={<Earn />} />
+        <Route path="spin" element={<Spin />} />
+        <Route path="meme" element={<MemeGenerator />} />
+        <Route path="referral" element={<Referral />} />
       </Route>
     </Routes>
   )
